@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>RegistrationForm_v8 by Colorlib</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+		<link rel="stylesheet" href="../static/css/Reg.css">
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<div class="image-holder">
+				<img src="../static/img/registration-form-8.jpg" alt="" style="max-width: 100%;">
+			</div>
+			<div class="form-inner">
+				
+				<form action="{%url 'travelapp:register' %}" method="post" onsubmit="return validateForm()">
+					{% csrf_token %}
+					<div class="form-header">
+						<h3>Sign up</h3>
+						<img src="../static/img/sign-up.png" alt="" class="sign-up-icon">
+					</div>
+					<div class="form-group">
+						<label for="">Username:</label>
+						<input type="text" class="form-control" name="username" id="username" required>
+						<span id="usernameError" class="error"></span>
+					</div>
+                    <div class="form-group">
+						<label for="">FULLname:</label>
+						<input type="text" class="form-control" name="fullname" id="fullname" required>
+						<span id="fullnameError" class="error"></span>
+					</div>
+					<div class="form-group">
+						<label for="">E-mail:</label>
+						<input type="text" class="form-control" name="email" id="email" required>
+						<span id="emailError" class="error"></span>
+					</div>
+					<div class="form-group">
+						<label for="">Password:</label>
+						<input type="password" class="form-control"  name="password" id="password" required>
+						<span id="passwordError" class="error"></span>
+					</div>
+					<button type="submit">create my account</button>
+					<div class="socials">
+						<p>Sign up with social platforms</p>
+						<a href="" class="socials-icon">
+							<i class="zmdi zmdi-facebook"></i>
+						</a>
+						<a href="" class="socials-icon">
+							<i class="zmdi zmdi-instagram"></i>
+						</a>
+						<a href="" class="socials-icon">
+							<i class="zmdi zmdi-twitter"></i>
+						</a>
+						<a href="" class="socials-icon">
+							<i class="zmdi zmdi-tumblr"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/jquery.form-validator.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			function validateForm() {
+				var username = document.getElementById("username").value;
+				var fullname = document.getElementById("fullname").value;
+				var email = document.getElementById("email").value;
+				var password = document.getElementById("password").value;
+	
+				// Validate username
+				var usernameRegex = /^(?=.*[A-Za-z0-9])[A-Za-z0-9]{6,}$/;
+				if (!usernameRegex.test(username)) {
+					document.getElementById("usernameError").innerHTML = "Username must be at least 6 characters long and contain only alphanumeric characters.";
+					return false;
+				} else {
+					document.getElementById("usernameError").innerHTML = "";
+				}
+	
+				// Validate email
+				var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+				if (!emailRegex.test(email)) {
+					document.getElementById("emailError").innerHTML = "Enter a valid email address.";
+					return false;
+				} else {
+					document.getElementById("emailError").innerHTML = "";
+				}
+	
+				// Validate password
+				var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/;
+				if (!passwordRegex.test(password)) {
+					document.getElementById("passwordError").innerHTML = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one special character, and one number.";
+					return false;
+				} else {
+					document.getElementById("passwordError").innerHTML = "";
+				}
+	
+				return true;
+			}
+		</script>
+	</body>
+</html>
