@@ -9,7 +9,8 @@ urlpatterns = [
    path('home/',home,name='home'),
    path('dashboard/',dashboard,name='dashboard'),
    path('logout/',logout,name='logout'),
-   path('book/',Book,name='book')
+   path('book/<str:pname>/',book,name='book'),
+   path('hotel/',HotelView,name='hotel')
 
  
 ]

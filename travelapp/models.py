@@ -23,10 +23,26 @@ class Booking(models.Model):
 
 
 
-
-       
-
+class Reservation(models.Model):
+       user=models.ForeignKey(userLogin,on_delete=models.CASCADE,related_name='user_reservations')
+       package=models.ForeignKey(Booking,on_delete=models.CASCADE)
+       checkIN=models.DateField(null=True,blank=True)
+       checkOut=models.DateField(null=True,blank=True)
+       adult=models.IntegerField(null=True,blank=True)
+       Children=models.IntegerField(null=True,blank=True)
+#        email=models.ForeignKey(userLogin,on_delete=models.CASCADE,related_name='email_reservations')
+       def _str_(self):
+        return f"Booking for {self.user} at {self.package}"
       
+
+class Hotel(models.Model):
+    
+      name=models.CharField(max_length=100)
+      address=models.TextField(max_length=100)
+      image=models.ImageField(upload_to='travelimages/',blank=True)
+      price=models.IntegerField()
+      def __str__(self) :
+            return str(self.name)
 
 
 

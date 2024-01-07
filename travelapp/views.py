@@ -48,6 +48,7 @@ def login(request):
 
         if user is not None:
             auth_login(request, user)
+            # request.session[user.id] = id
             fname = user.get_full_name() if user.get_full_name() else user.username
             return redirect('travelapp:home')
         else:
@@ -55,6 +56,9 @@ def login(request):
             return redirect('travelapp:login')
 
     return render(request, 'login.html')
+def logout(request):
+    auth_logout(request)
+    return HttpResponseRedirect('/')
 
 
 def home(request):
@@ -66,44 +70,66 @@ def dashboard(request):
     return render(request,'dashboard.html')
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import userLogin
+from .models import Booking, Reservation
 
-def logout(request):
-    auth_logout(request)
-    return HttpResponseRedirect('/')
+@login_required
+def book(request, pname):
+    # Initialize packagename with a default value
+    packagename = None
+
+    if request.method == 'POST':
+        # Assuming you get the user and package instances based on package_id
+        user_instance = request.user  # Assuming user is authenticated
+
+        # Check if userLogin instance exists, create it if not
+        user_login_instance, created = userLogin.objects.get_or_create(username=user_instance)
+
+        package_instance = Booking.objects.get(pname=pname)
+        packagename = package_instance.pname
+
+        # Extract other form data from POST request
+        check_in_date = request.POST.get('check_in_date')
+        check_out_date = request.POST.get('check_out_date')
+        adult_count = request.POST.get('adult_count')
+        children_count = request.POST.get('children_count')
+
+        # Get the email from the userLogin instance
+       
+
+        # Create a reservation instance
+        reservation = Reservation(
+            user=user_login_instance,
+            package=package_instance,
+            checkIN=check_in_date,
+            checkOut=check_out_date,
+            adult=adult_count,
+            Children=children_count,
+          
+        )
+
+        # Save the reservation
+        reservation.save()
+
+        # Display a success message
+        messages.success(request, 'Booking successful!')
+
+        # Redirect to the home page
+        return redirect('travelapp:home')
+
+    # If the request is not POST, render the booking form
+    return render(request, 'Booking.html', {'pname': pname, 'packagename': packagename})
 
 
-def Book(request,pname):
-    if request.method == "POST":
-        username=request.POST['username']
-        email=request.POST['email']
-        checkin=request.POST['checkin']
-        checkout=request.POST['checkout']
-        duration_of_stay=request.POST['duration_of_stay']
-        duration_of_choice=request.POST['duration_of_choice']
-        adult=request.POST['adult']
-        children=request.POST['children']
+def HotelView(request):
+   hotels=Hotel.objects.all()
+   context={'hotels':hotels}
+   return render(request,'HotelView.html',context)
 
-        if username and email and checkin and checkout and duration_of_choice and duration_of_stay:
-            package = Booking.objects.get(pk=pname)
 
-            booking = Booking.objects.create(
-                user_name=username,
-                email=email,
-                package=package,
-                check_in=checkin,
-                check_out=checkout,
-                adult=adult,
-                children=children,
-                duration_of_stay=duration_of_stay,
-                duration_of_choice=duration_of_choice
 
-            )
 
-            booking.save()
 
-            # Redirect to a success page or any other desired page
-            return redirect('booking_success')
-
-    # If the request method is not POST or there are validation errors, render the booking form
-    package = Booking.objects.get(pk=pname)
-    return render(request, 'book_package.html', {'package': package})
