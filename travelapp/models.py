@@ -39,11 +39,31 @@ class Hotel(models.Model):
     
       name=models.CharField(max_length=100)
       address=models.TextField(max_length=100)
-      image=models.ImageField(upload_to='travelimages/',blank=True)
+      images=models.ImageField(upload_to='travelimages/',blank=True)
       price=models.IntegerField()
       def __str__(self) :
             return str(self.name)
 
 
 
+class HotelConfirm(models.Model):
+      user=models.ForeignKey(userLogin,on_delete=models.CASCADE)
+      hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
+      roomType = models.CharField(max_length=50)  # single or double
+      arrival=models.DateField()
+      departure=models.DateField()
+      adult=models.IntegerField()
+      children=models.IntegerField()
+      def _str_(self):
+        return f"Booking for {self.user} at {self.hotel}"
+      
+
+      
+            
+      
+     
+  
+
+
+       
        

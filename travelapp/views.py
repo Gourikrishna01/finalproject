@@ -7,8 +7,8 @@ from .models import *
 from django.contrib.auth import authenticate, login as auth_login,logout as auth_logout
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
 from datetime import datetime
+
 def index(request):
      packages = Booking.objects.all()
      context={'packages':packages}
@@ -64,7 +64,9 @@ def logout(request):
 def home(request):
     packages=Booking.objects.all()
     context={'packages':packages}
+    
     return render(request,'home.html',context)
+    
 
 def dashboard(request):
     return render(request,'dashboard.html')
@@ -125,11 +127,11 @@ def book(request, pname):
 
 
 def HotelView(request):
-   hotels=Hotel.objects.all()
-   context={'hotels':hotels}
-   return render(request,'HotelView.html',context)
+    hotels = Hotel.objects.all()
+    context = {'hotels': hotels}
+    return render(request, 'HotelView.html', context)
 
 
 
-
-
+# def ResetPassword(request):
+#     return render(request,'Forget.html')

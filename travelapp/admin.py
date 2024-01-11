@@ -6,4 +6,5 @@ admin.site.register(userLogin)
 admin.site.register(Booking)
 admin.site.register(Reservation)
 admin.site.register(Hotel)
+admin.site.register(HotelConfirm)
 
