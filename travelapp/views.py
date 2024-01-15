@@ -132,6 +132,47 @@ def HotelView(request):
     return render(request, 'HotelView.html', context)
 
 
+# views.py
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import HotelConfirm
 
-# def ResetPassword(request):
-#     return render(request,'Forget.html')
+@login_required
+def book_hotel(request, hotel_id):
+    if request.method == 'POST':
+        print(request.POST)
+        room_type = request.POST.get('room_type')
+        arrival_date = request.POST.get('arrival_date')
+        departure_date = request.POST.get('departure_date')
+        adult_count = request.POST.get('adult_count')
+        children_count = request.POST.get('children_count')
+
+        user_instance = request.user
+
+        # Check if room_type is provided before creating HotelConfirm object
+        if room_type:
+            booking = HotelConfirm.objects.create(
+                user=user_instance,
+                hotel_id=hotel_id,
+                room_type=room_type,
+                arrival_date=arrival_date,
+                departure_date=departure_date,
+                adult_count=adult_count,
+                children_count=children_count
+            )
+            booking.save()
+
+            messages.success(request, 'Booking successful!')
+
+            # Include a script to reload the page
+            return redirect('travelapp:home')
+        else:
+            messages.error(request, 'Room type is required.')
+            # Redirect back to the booking page with an error message
+            return render(request, 'Booking_hotel.html', {'hotel_id': hotel_id})
+
+    else:
+        return render(request, 'Booking_hotel.html', {'hotel_id': hotel_id})
+
+

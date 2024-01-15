@@ -46,24 +46,16 @@ class Hotel(models.Model):
 
 
 
+from django.db import models
+from django.contrib.auth.models import User
+
 class HotelConfirm(models.Model):
-      user=models.ForeignKey(userLogin,on_delete=models.CASCADE)
-      hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
-      roomType = models.CharField(max_length=50)  # single or double
-      arrival=models.DateField()
-      departure=models.DateField()
-      adult=models.IntegerField()
-      children=models.IntegerField()
-      def _str_(self):
-        return f"Booking for {self.user} at {self.hotel}"
-      
-
-      
-            
-      
-     
-  
-
-
-       
-       
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    hotel_id = models.IntegerField()
+    room_type = models.CharField(max_length=255)
+    arrival_date = models.DateField()
+    departure_date = models.DateField()
+    adult_count = models.IntegerField()
+    children_count = models.IntegerField()
+    def _str_(self):
+        return f"Booking for {self.user} at {self.hotel_id}"
