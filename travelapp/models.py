@@ -59,3 +59,25 @@ class HotelConfirm(models.Model):
     children_count = models.IntegerField()
     def _str_(self):
         return f"Booking for {self.user} at {self.hotel_id}"
+
+
+class CarView(models.Model):
+      brand=models.CharField(max_length=100)
+      model=models.CharField(max_length=100)
+      year=models.IntegerField()
+      seats=models.IntegerField()
+      image=models.ImageField(upload_to='travelimages/',blank=True)
+      def __str__(self):
+            return str(self.brand)
+      
+
+
+class CarBook(models.Model):
+      user=models.ForeignKey(userLogin,on_delete=models.CASCADE)
+      car_id=models.ForeignKey(CarView,on_delete=models.CASCADE)
+      arrival_date=models.DateField()
+      departure_date=models.DateField()
+      destination=models.CharField(max_length=50)
+     
+      def _str_(self):
+        return f"Booking for {self.user} at {self.carview}"

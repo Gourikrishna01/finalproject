@@ -12,6 +12,9 @@ urlpatterns = [
    path('book/<str:pname>/',book,name='book'),
    path('hotel/',HotelView,name='hotel'),
    # path('password/',ResetPassword,name='password')
-   path('book_hotel/<int:hotel_id>/',book_hotel,name='book_hotel')
+   path('book_hotel/<int:hotel_id>/',book_hotel,name='book_hotel'),
+     path('carbook/<int:id>/', carbook, name='carbook'),
+    path('carview/', Carlist, name='carview'),
+   
  
 ]

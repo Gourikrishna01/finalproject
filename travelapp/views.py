@@ -175,4 +175,38 @@ def book_hotel(request, hotel_id):
     else:
         return render(request, 'Booking_hotel.html', {'hotel_id': hotel_id})
 
+def Carlist(request):
+    cars=CarView.objects.all()
+    context={'cars':cars}
+    return render(request,'CarView.html',context)
 
+
+
+from django.shortcuts import render, redirect
+
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
+
+@login_required
+def carbook(request, car_id):
+    try:
+        car = CarView.objects.get(pk=car_id)
+    except CarView.DoesNotExist:
+        raise Http404("Car does not exist")
+
+    if request.method == 'POST':
+        arrival_date = request.POST.get('arrival_date')
+        departure_date = request.POST.get('departure_date')
+        destination = request.POST.get('destination')
+
+        # Assuming the user is the currently logged-in user
+        user = request.user
+
+        # Create a booking
+        booking = CarBook.objects.create(user=user, car_id=car, arrival_date=arrival_date, departure_date=departure_date, destination=destination)
+        booking.save()
+
+        # Redirect to another page after successful booking
+        return redirect('carview')  # Replace 'booking_success' with your actual success page name
+
+    return render(request, 'book_car.html', {'car': car})

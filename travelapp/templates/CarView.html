@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="../static/css/HotleView.css">
+<body>
+  <!-- HotelView.html -->
+
+  <div class="container mx-auto mt-4">
+    <div class="row">
+        <h3>Welcome {{request.user.username}}</h3>
+        {% for car in cars %}
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+             
+                        <img src="{{ car.image.url }}" class="card-img-top img-fluid" alt="{{ hotel.name }}" style="max-height: 150px; object-fit: cover;">
+                
+                
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.brand }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ car.year }}</h6>
+                        <p class="card-text">{{ car.seat }}</p>
+                        <a href="/carbook/{{car.id}}"class="btn mr-2"><i class="fas fa-link"></i> Visit Site</a>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+</body>
+</html>
