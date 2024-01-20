@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
 class userLogin(models.Model):
@@ -45,13 +45,9 @@ class Hotel(models.Model):
             return str(self.name)
 
 
-
-from django.db import models
-from django.contrib.auth.models import User
-
 class HotelConfirm(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    hotel_id = models.IntegerField()
+    hotel_id = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_type = models.CharField(max_length=255)
     arrival_date = models.DateField()
     departure_date = models.DateField()

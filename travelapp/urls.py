@@ -13,7 +13,7 @@ urlpatterns = [
    path('hotel/',HotelView,name='hotel'),
    # path('password/',ResetPassword,name='password')
    path('book_hotel/<int:hotel_id>/',book_hotel,name='book_hotel'),
-     path('carbook/<int:id>/', carbook, name='carbook'),
+     path('carbook/<int:car_id>/', carbook, name='carbook'),
     path('carview/', Carlist, name='carview'),
    
  
