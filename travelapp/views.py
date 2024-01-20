@@ -168,33 +168,36 @@ def Carlist(request):
     context={'cars':cars}
     return render(request,'CarView.html',context)
 
-
-
-from django.shortcuts import render, redirect
-
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import CarView, CarBook
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.contrib.auth.models import User
 
 @login_required
 def carbook(request, car_id):
-    try:
-        car = CarView.objects.get(pk=car_id)
-    except CarView.DoesNotExist:
-        raise Http404("Car does not exist")
+    car_instance = get_object_or_404(CarView, pk=car_id)
 
     if request.method == 'POST':
         arrival_date = request.POST.get('arrival_date')
         departure_date = request.POST.get('departure_date')
         destination = request.POST.get('destination')
 
-        # Assuming the user is the currently logged-in user
-        user = request.user
+        user_instance = request.user if isinstance(request.user, User) else None
 
-        # Create a booking
-        booking = CarBook.objects.create(user=user, car_id=car, arrival_date=arrival_date, departure_date=departure_date, destination=destination)
-        booking.save()
+        if user_instance and arrival_date and departure_date and destination:
+            booking = CarBook.objects.create(
+                user=user_instance,
+                car_id=car_instance,
+                arrival_date=arrival_date,
+                departure_date=departure_date,
+                destination=destination
+            )
+            booking.save()
 
-        # Redirect to another page after successful booking
-        return redirect('carview')  # Replace 'booking_success' with your actual success page name
+            messages.success(request, 'Car booking successful!')
+            return redirect('travelapp:home')
+        else:
+            messages.error(request, 'Some fields are missing')
 
-    return render(request, 'book_car.html', {'car': car})
+    return render(request, 'CarBooking.html', {'car_instance': car_instance, 'car_id': car_id})

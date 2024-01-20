@@ -111,14 +111,23 @@
     text-transform: uppercase;
 }
 
+.booking-form .form-btn {
+    text-align: center;
+}
+
 .booking-form .submit-btn {
     color: #101113;
     background-color: #ffc001;
     font-weight: 700;
-    height: 50px;
+    height: 40px; /* Reduced button size */
     border: none;
     width: 100%;
     display: block;
     border-radius: 3px;
     text-transform: uppercase;
+    transition: background-color 0.3s ease; /* Added hover effect */
+}
+
+.booking-form .submit-btn:hover {
+    background-color:brown; /* Change the background color on hover */
 }

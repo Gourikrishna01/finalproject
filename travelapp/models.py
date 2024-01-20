@@ -68,12 +68,14 @@ class CarView(models.Model):
       
 
 
+
+
 class CarBook(models.Model):
-      user=models.ForeignKey(userLogin,on_delete=models.CASCADE)
-      car_id=models.ForeignKey(CarView,on_delete=models.CASCADE)
-      arrival_date=models.DateField()
-      departure_date=models.DateField()
-      destination=models.CharField(max_length=50)
-     
-      def _str_(self):
-        return f"Booking for {self.user} at {self.carview}"
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    car_id = models.ForeignKey(CarView, on_delete=models.CASCADE)
+    arrival_date = models.DateField()
+    departure_date = models.DateField()
+    destination = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"Booking for {self.user} at {self.car_id}"
