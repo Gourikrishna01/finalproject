@@ -30,7 +30,7 @@
 						<div class="form-header">
 							<h1>Make your reservation</h1>
 						</div>
-						<form method="post" action="{% url 'travelapp:book_hotel' hotel_id %}">
+						<form method="post" action="{% url 'travelapp:book_hotel' hotel_id=hotel_id %}">
 							{% csrf_token %}
 							<div class="row">
 								<div class="col-md-6">

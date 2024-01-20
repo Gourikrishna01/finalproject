@@ -1,6 +1,6 @@
 # views.py
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from .models import *
@@ -72,13 +72,8 @@ def dashboard(request):
     return render(request,'dashboard.html')
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import userLogin
-from .models import Booking, Reservation
 
-@login_required
+
 def book(request, pname):
     # Initialize packagename with a default value
     packagename = None
@@ -133,15 +128,14 @@ def HotelView(request):
 
 
 # views.py
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import HotelConfirm
 
-@login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Hotel, HotelConfirm
+
 def book_hotel(request, hotel_id):
+    hotel_instance = get_object_or_404(Hotel, pk=hotel_id)
+
     if request.method == 'POST':
-        print(request.POST)
         room_type = request.POST.get('room_type')
         arrival_date = request.POST.get('arrival_date')
         departure_date = request.POST.get('departure_date')
@@ -150,11 +144,11 @@ def book_hotel(request, hotel_id):
 
         user_instance = request.user
 
-        # Check if room_type is provided before creating HotelConfirm object
         if room_type:
+            # Use the fetched hotel_instance when creating HotelConfirm
             booking = HotelConfirm.objects.create(
                 user=user_instance,
-                hotel_id=hotel_id,
+                hotel_id=hotel_instance,  # Use the correct field name
                 room_type=room_type,
                 arrival_date=arrival_date,
                 departure_date=departure_date,
@@ -163,17 +157,11 @@ def book_hotel(request, hotel_id):
             )
             booking.save()
 
-            messages.success(request, 'Booking successful!')
-
-            # Include a script to reload the page
             return redirect('travelapp:home')
-        else:
-            messages.error(request, 'Room type is required.')
-            # Redirect back to the booking page with an error message
-            return render(request, 'Booking_hotel.html', {'hotel_id': hotel_id})
 
-    else:
-        return render(request, 'Booking_hotel.html', {'hotel_id': hotel_id})
+    return render(request, 'Booking_hotel.html', {'hotel_instance': hotel_instance, 'hotel_id': hotel_id})
+
+
 
 def Carlist(request):
     cars=CarView.objects.all()
