@@ -86,7 +86,7 @@
 
             <h1 class="heading" data-aos="fade-up">Welcome to <em>Villa</em> resort</h1>
             <p class="sub-heading mb-5" data-aos="fade-up" data-aos-delay="100">Discover our world-class hotel &amp; restaurant resort.</p>
-            <p data-aos="fade-up" data-aos-delay="100"><a href="#" class="btn uppercase btn-primary mr-md-2 mr-0 mb-3 d-sm-inline d-block">Explore The Beauty</a> <a href="#" class="btn uppercase btn-outline-light d-sm-inline d-block">Download</a></p>
+            <p data-aos="fade-up" data-aos-delay="100"><a href="{% url 'travelapp:search' %}" class="btn uppercase btn-primary mr-md-2 mr-0 mb-3 d-sm-inline d-block">Explore The Beauty</a> <a href="#" class="btn uppercase btn-outline-light d-sm-inline d-block">Download</a></p>
           </div>
         </div>
         <!-- <a href="#" class="scroll-down">Scroll Down</a> -->
@@ -102,6 +102,8 @@
           </div>
         </div>
     
+
+
         <div class="row">
      
           {% for package in packages %}
@@ -176,4 +178,5 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="../static/js/js/aos.js"></script>
     <script src="../static/js/js/main.js"></script>
   </body>
+
 </html>

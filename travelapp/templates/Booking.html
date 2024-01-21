@@ -32,9 +32,11 @@
                         <div class="form-header">
                             <h1>Make your Booking</h1>
                         </div>
-                        <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
+                     
+                        
+                    <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
                             {% csrf_token %}
-
+   
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -110,19 +112,19 @@
                                 }
                             </style>
                             <div class="form-btn">
-                                <button class="submit" type="submit" onclick="showSuccessMessage()">Submit</button>
+                                <button class="submit" type="submit"  onclick="showErrorMessage()">Submit</button>
                             </div>
+                            
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script>
-        function showSuccessMessage() {
-            alert("Booking successful! Thank you.");
-            // You can replace the alert with a modal or any other method to display the success message.
+       
+        function showErrorMessage() {
+            alert('This package is already booked for the selected date.');
         }
     </script>
 </body>

@@ -47,7 +47,7 @@ class Hotel(models.Model):
 
 class HotelConfirm(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    hotel_id = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     room_type = models.CharField(max_length=255)
     arrival_date = models.DateField()
     departure_date = models.DateField()
