@@ -32,22 +32,20 @@
                         <div class="form-header">
                             <h1>Make your Booking</h1>
                         </div>
-                     
-                        
-                    <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
+                        <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
                             {% csrf_token %}
    
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Check In</span>
-                                        <input class="form-control" type="date" name="check_in_date" required>
+                                        <input class="form-control" type="date" name="check_in_date" min="{{ today }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Check Out</span>
-                                        <input class="form-control" type="date" name="check_out_date" required>
+                                        <input class="form-control" type="date" name="check_out_date" min="{{ today }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -90,6 +88,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <style>
                                 /* Add this style for the submit button */
                                 .form-btn {
@@ -114,7 +113,6 @@
                             <div class="form-btn">
                                 <button class="submit" type="submit"  onclick="showErrorMessage()">Submit</button>
                             </div>
-                            
                         </form>
                     </div>
                 </div>
@@ -122,10 +120,9 @@
         </div>
     </div>
     <script>
-       
-        function showErrorMessage() {
-            alert('This package is already booked for the selected date.');
-        }
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("check_in_date")[0].setAttribute('min', today);
+        document.getElementsByName("check_out_date")[0].setAttribute('min', today);
     </script>
 </body>
 

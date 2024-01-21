@@ -36,14 +36,14 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<span class="form-label">Check In</span>
-										<input class="form-control" name="arrival_date" type="date" required>
+										<input id="arrival_date" class="form-control" name="arrival_date" type="date" min="{{ today }}" required>
 									</div>
 									<span class="in-out hidden-xs hidden-sm">&#8652;</span>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<span class="form-label">Check out</span>
-										<input class="form-control" type="date" name="departure_date" required>
+										<input class="form-control" type="date" name="departure_date" min="{{ today }}" required>
 									</div>
 								</div>
 							</div>
@@ -83,7 +83,7 @@
 								</div>
 								<div class="col-md-3">
 									<div class="form-btn">
-										<button class="submit-btn" type="submit" onclick="shoError()">Check availability</button>
+										<button class="submit-btn" type="button" onclick="checkAvailability()">Check availability</button>
 									</div>
 								</div>
 							</div>
@@ -96,15 +96,35 @@
 
 	<div id="error-message" style="display: none; color: red;"></div>
 
-<script>
-    function showError(message) {
-        var errorMessage = document.getElementById('error-message');
-        errorMessage.innerHTML = message;
-        errorMessage.style.display = 'block';
-    }
-</script>
+	<script>
+		// Get today's date in the format required by the date input (YYYY-MM-DD)
+		var today = new Date().toISOString().split('T')[0];
 
+		// Set minimum values for the date inputs
+		document.getElementById("arrival_date").setAttribute('min', today);
+		document.getElementsByName("departure_date")[0].setAttribute('min', today);
 
+		function checkAvailability() {
+			var arrivalDate = document.getElementById("arrival_date").value;
+			var departureDate = document.getElementsByName("departure_date")[0].value;
+
+			if (arrivalDate < today) {
+				showError("Please select a valid Check In date.");
+			} else if (departureDate < today) {
+				showError("Please select a valid Check Out date.");
+			} else {
+				// Continue with form submission or other actions
+				document.getElementById("error-message").style.display = 'none';
+				// ...
+			}
+		}
+
+		function showError(message) {
+			var errorMessage = document.getElementById('error-message');
+			errorMessage.innerHTML = message;
+			errorMessage.style.display = 'block';
+		}
+	</script>
 </body>
 
 </html>
