@@ -248,15 +248,17 @@ def carbook(request, car_id):
 
     return render(request, 'CarBooking.html', {'car_instance': car_instance, 'car_id': car_id})
 
+# views.py
+
 def search(request):
-    query = request.GET.get('q', '')  # Get the search query from the request
+    return render(request,'search.html')
 
-    # Perform the search in the TourPackage model
-    if query:
-        results = Booking.objects.filter(pname__icontains=query)
-    else:
-        results = Booking.objects.all()
 
-    context = {'results': results, 'query': query}
-    return render(request, 'Search.html', context)
-    
+def details(request):
+    query=request.GET.get('query')
+    package=Booking.objects.filter(pname__icontains=query)
+    context={
+
+        'package':package
+    }
+    return render(request,'details.html',context)

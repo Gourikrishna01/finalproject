@@ -9,22 +9,21 @@
   </head>
   <body>
     <div class="s01">
-      <form method="get" action="{% url 'travelapp:search'%}">
+      <form method="get" action="{% url 'travelapp:details' %}" role="search">
         {% csrf_token %}
         <fieldset>
-          <legend>Discover the Amazing City</legend>
+            <legend>Discover the Amazing City</legend>
         </fieldset>
         <div class="inner-form">
-          <div class="input-field first-wrap">
-            <input id="search" type="text" name="q" placeholder="What are you looking for?" />
-          </div>
-         
-          <div class="input-field third-wrap">
-            <button class="btn-search" type="button">Search</button>
-          </div>
-     
+            <div class="input-field first-wrap">
+                <input id="search" type="text" name="query" id="query" placeholder="What are you looking for?" />
+            </div>
+            <div class="input-field third-wrap">
+                <button class="btn-search" type="submit">Search</button>
+            </div>
         </div>
-      </form>
+    </form>
+    
       
     </div>
   </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
