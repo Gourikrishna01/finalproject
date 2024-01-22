@@ -262,3 +262,34 @@ def details(request):
         'package':package
     }
     return render(request,'details.html',context)
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .models import Review, Booking
+
+@login_required
+def Rating(request, package_id):
+    if request.method == 'POST':
+        user = request.user
+        package = get_object_or_404(Booking, pk=package_id)
+
+        # Check if the user has already reviewed the package
+        existing_review = Review.objects.filter(user=user, package=package).first()
+        if existing_review:
+            # Update the existing review
+            existing_review.rate = request.POST.get('rating')
+            existing_review.save()
+        else:
+            # Create a new review
+            rate = request.POST.get('rating')
+            Review.objects.create(user=user, package=package, rate=rate)
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+
+def password(request):
+    return render(request,'Forget.html')
