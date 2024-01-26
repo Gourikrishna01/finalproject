@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User
 
 # Create your models here.
 class userLogin(models.Model):
-        username = models.OneToOneField(User, on_delete=models.CASCADE,unique=True)
+        username = models.TextField(User,unique=True)
         fullname=models.CharField(max_length=20)
         email=models.CharField(max_length=20)
         password=models.CharField(max_length=20)
@@ -30,7 +30,7 @@ class Reservation(models.Model):
        checkOut=models.DateField(null=True,blank=True)
        adult=models.IntegerField(null=True,blank=True)
        Children=models.IntegerField(null=True,blank=True)
-#        email=models.ForeignKey(userLogin,on_delete=models.CASCADE,related_name='email_reservations')
+       #email=models.ForeignKey(userLogin,on_delete=models.CASCADE,related_name='email_reservations')
        def _str_(self):
         return f"Booking for {self.user} at {self.package}"
       
@@ -81,10 +81,9 @@ class CarBook(models.Model):
         return f"Booking for {self.user} at {self.car_id}"
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    package = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    rate = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+     package = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='ratings')
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     review=models.CharField(max_length=300)
 
-    def __str__(self):
-        return f"Review {self.id} for Package {self.package.id}"
+     def __str__(self):
+        return f"Booking for {self.user} at {self.package}"

@@ -9,7 +9,7 @@ urlpatterns = [
    path('register/',register,name='register'),
    path('home/',home,name='home'),
    path('dashboard/',dashboard,name='dashboard'),
-   path('logout/',logout,name='logout'),
+   path('logout/', logout, name='logout'),
    path('book/<str:pname>/',book,name='book'),
    path('hotel/',HotelView,name='hotel'),
    path('password/',password,name='password'),
@@ -18,6 +18,7 @@ urlpatterns = [
    path('carview/', Carlist, name='carview'),
    path('search/',search,name='search'),
    path('details/',details,name='details'),
-    path('rate-package/<int:package_id>/', Rating, name='rate-package'),
+   path('rating/<int:id>/',rating,name='rating')
+ 
   
 ]

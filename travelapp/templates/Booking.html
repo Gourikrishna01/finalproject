@@ -32,7 +32,7 @@
                         <div class="form-header">
                             <h1>Make your Booking</h1>
                         </div>
-                        <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
+                        <form method="post" action="{% url 'travelapp:book' pname=packagename %}" id="bookingForm">
                             {% csrf_token %}
    
                             <div class="row">

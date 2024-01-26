@@ -137,7 +137,7 @@
                                     <div class="row g-0 w-100">
                                         <div class="col-6">
                                             <div class="p-3 m-1">
-                                                <h4>Welcome  {{request.user}} !</h4>
+                                                <h4>Welcome  {{request.user.username}} !</h4>
                                                 <p class="mb-0"> "Explore, Experience, and Elevate Your Travel with Seamless Management."</p>
                                             </div>
                                         </div>
@@ -180,7 +180,7 @@
                     <!-- Table Element -->
                     <div class="card border-0">
                         <div class="card-header">
-                            <a href="/registration" class="btn btn-primary rounded-circle">{{request.user}}</a>
+                            <a href="/registration" class="btn btn-primary rounded-circle">{{request.user.username}}</a>
                               
                             <!-- Circular Button with Plus Symbol -->
                             <a href="/registration" class="btn btn-primary rounded-circle">
@@ -188,7 +188,19 @@
                             </a>
                         </div>
                     </div>
-                    
+                    <ul>
+                        {% for user_reservation in user_reservations %}
+                            <li>
+                                <strong>Package:</strong> {{ reservation.package.pname }}<br>
+                                <strong>Check-in Date:</strong> {{ reservation.checkIN }}<br>
+                                <strong>Check-out Date:</strong> {{ reservation.checkOut }}<br>
+                                <strong>Number of Adults:</strong> {{ reservation.adult_count }}<br>
+                                <strong>Number of Children:</strong> {{ reservation.Children_count }}<br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                  
+                
                 </div>
             </main>
             <a href="#" class="theme-toggle">

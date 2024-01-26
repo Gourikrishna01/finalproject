@@ -54,7 +54,7 @@
                           {% if user.is_authenticated %}
                           <h3>Welcome {{request.user.username}}</h3>
                        
-                          <a href="/logout" class="button btn-danger">Logout</a>
+                          <a href="{% url 'travelapp:logout' %}" class="button btn-danger">Logout</a>
                         
                        
                           {% endif %}
@@ -65,6 +65,7 @@
                             <li><a href="#">Twitter</a></li>
                             <li><a href="#">Facebook</a></li>
                             <li><a href="#">Instagram</a></li>
+                            <li><a href="{% url 'travelapp:dashboard' %}">Profile</a></li>
                           </ul>
                         </div>
                       </div>
@@ -105,14 +106,16 @@
 
 
         <div class="row">
-     
           {% for package in packages %}
-              <div class="col-lg-3 col-md-6 visit mb-3" data-aos="fade-right">
-                <a href="/book/{{package.pname}}/"><img src="{{package.images.url}}" alt="Image placeholder" class="img-fluid"> </a>
-                <h3><a href="">{{package.pname}}</a></h3>
-              </div> 
+          <div class="col-lg-3 col-md-6 visit mb-3" data-aos="fade-right">
+              <a href="/book/{{package.pname}}/"><img src="{{package.images.url}}" alt="Image placeholder" class="img-fluid"> </a>
+              <h3><a href="">{{package.pname}}</a></h3>
+              <!-- Button for Review -->
+              <a href="/rating/{{package.id}}/"class="btn-danger">review</a>
+
+          </div>
+          {% endfor %}
           
-    {%endfor%}
 
     </section>
     <!-- END section -->

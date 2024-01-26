@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth import authenticate, login as auth_login,logout as auth_logout
+from django.contrib.auth.views import LogoutView
+
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from datetime import datetime
@@ -66,74 +68,62 @@ def home(request):
     context={'packages':packages}
     
     return render(request,'home.html',context)
-    
-
-def dashboard(request):
-    return render(request,'dashboard.html')
 
 
-
-
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import Booking, userLogin, Reservation
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import Booking, Reservation
 
+@login_required
 def book(request, pname):
     try:
-        # Fetch the package and user instances
-        user_instance = request.user
-        user_login_instance, created = userLogin.objects.get_or_create(username=user_instance)
+        # Get the package instance
         package_instance = Booking.objects.get(pname=pname)
     except Booking.DoesNotExist:
-        raise Http404("Package does not exist")  # Handle the case where the package does not exist
+        raise Http404("Package does not exist")
 
     packagename = package_instance.pname
 
     if request.method == 'POST':
-        try:
-            check_in_date = request.POST.get('check_in_date')
-            check_out_date = request.POST.get('check_out_date')
-            adult_count = request.POST.get('adult_count')
-            children_count = request.POST.get('children_count')
+        check_in_date = request.POST.get('check_in_date')
+        check_out_date = request.POST.get('check_out_date')
+        adult_count = request.POST.get('adult_count')
+        children_count = request.POST.get('children_count')
 
-            # Check for existing reservations on the selected date
-            existing_reservation = Reservation.objects.filter(
-                user=user_login_instance,
-                package=package_instance,
-                checkIN=check_in_date,
-            )
+        # Get the current logged-in user
+        user_instance = request.user  # Use request.user directly
 
-            if existing_reservation.exists():
-                # If a reservation already exists, display an alert message
-                messages.error(request, 'This package is already booked for the selected date.')
-                return render(request, 'Booking.html', {'pname': pname, 'packagename': packagename})
-            
-            # Use get_or_create to create a new reservation or get an existing one
-            reservation, created = Reservation.objects.get_or_create(
-                user=user_login_instance,
-                package=package_instance,
-                checkIN=check_in_date,
-                defaults={
-                    'checkOut': check_out_date,
-                    'adult': adult_count,
-                    'Children': children_count,
-                }
-            )
+        # Check for existing reservation
+        existing_reservation = Reservation.objects.filter(
+            user=user_instance,
+            package=package_instance,
+            checkIN=check_in_date,
+        )
 
-            if not created:
-                # If the reservation already existed, display an alert message
-                messages.error(request, 'This package is already booked for the selected date.')
-                return render(request, 'Booking.html', {'pname': pname, 'packagename': packagename})
+        if existing_reservation.exists():
+            messages.error(request, 'This package is already booked for the selected date.')
+        else:
+            try:
+                # Create a new reservation
+                reservation = Reservation.objects.create(
+                    user=user_instance,
+                    package=package_instance,
+                    checkIN=check_in_date,
+                    checkOut=check_out_date,
+                    adult=adult_count,
+                    children=children_count,
+                )
+                reservation.save()
 
-            messages.success(request, 'Booking successful!')
-            return redirect('travelapp:home')  # Redirect to home page after successful booking
+                messages.success(request, 'Booking successful!')
+                return redirect('home')  # Redirect to home page after successful booking
 
-        except Exception as e:
-            # Log or handle other exceptions as needed
-            messages.error(request, 'An error occurred. Please try again.')
+            except Exception as e:
+                messages.error(request, 'An error occurred while booking. Please try again.')
 
-    return render(request, 'Booking.html', {'pname': pname, 'packagename': packagename})
+    return render(request, 'Booking.html', {'packagename': packagename})
 
 
 
@@ -263,33 +253,38 @@ def details(request):
     }
     return render(request,'details.html',context)
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from .models import Review, Booking
-
-@login_required
-def Rating(request, package_id):
-    if request.method == 'POST':
-        user = request.user
-        package = get_object_or_404(Booking, pk=package_id)
-
-        # Check if the user has already reviewed the package
-        existing_review = Review.objects.filter(user=user, package=package).first()
-        if existing_review:
-            # Update the existing review
-            existing_review.rate = request.POST.get('rating')
-            existing_review.save()
-        else:
-            # Create a new review
-            rate = request.POST.get('rating')
-            Review.objects.create(user=user, package=package, rate=rate)
-
-        return JsonResponse({'success': True})
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 
 
 def password(request):
     return render(request,'Forget.html')
+from django.shortcuts import render, redirect
+from .models import Review
+
+def rating(request, package_id):
+    if request.method == 'POST':
+        review_text = request.POST.get('review_text')
+        package = Booking.objects.get(pk=package_id)
+        review = Review(package=package, user=request.user, review=review_text)
+        review.save()
+        return redirect('home')  # Redirect to home page after successful review
+    else:
+        # Handle GET request if needed
+        return render(request,'Rating.html')
+    
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Reservation
+from django.contrib.auth.models import User
+
+@login_required
+def dashboard(request):
+    # Ensure the user is authenticated
+    if request.user.is_authenticated:
+        # Filter reservations based on the current logged-in user
+        user_reservations = Reservation.objects.filter(user=request.user.id)
+        # Pass the user's reservations to the template
+        return render(request, 'dashboard.html', {'user_reservations': user_reservations})
+    else:
+        # Redirect to login page if the user is not authenticated
+        return redirect('login')
