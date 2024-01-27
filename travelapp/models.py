@@ -22,18 +22,18 @@ class Booking(models.Model):
     
 
 
-
 class Reservation(models.Model):
-       user=models.ForeignKey(userLogin,on_delete=models.CASCADE,related_name='user_reservations')
-       package=models.ForeignKey(Booking,on_delete=models.CASCADE)
-       checkIN=models.DateField(null=True,blank=True)
-       checkOut=models.DateField(null=True,blank=True)
-       adult=models.IntegerField(null=True,blank=True)
-       Children=models.IntegerField(null=True,blank=True)
-       #email=models.ForeignKey(userLogin,on_delete=models.CASCADE,related_name='email_reservations')
-       def _str_(self):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    package = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    check_in = models.DateField(null=True, blank=True)
+    check_out = models.DateField(null=True, blank=True)
+    adult = models.IntegerField(null=True, blank=True)
+    children = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+         
         return f"Booking for {self.user} at {self.package}"
-      
+       
 
 class Hotel(models.Model):
     

@@ -1,28 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Booking Form HTML Template</title>
-
-    <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <!-- Corrected Bootstrap stylesheet link -->
     <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link type="text/css" rel="stylesheet" href="{% static 'css/booking.css' %}" />
-
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
     <div id="booking" class="section">
         <div class="section-center">
@@ -32,20 +23,19 @@
                         <div class="form-header">
                             <h1>Make your Booking</h1>
                         </div>
-                        <form method="post" action="{% url 'travelapp:book' pname=packagename %}" id="bookingForm">
+                        <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
                             {% csrf_token %}
-   
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Check In</span>
-                                        <input class="form-control" type="date" name="check_in_date" min="{{ today }}" required>
+                                        <input class="form-control" type="date" name="check_in" min="{{ today }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Check Out</span>
-                                        <input class="form-control" type="date" name="check_out_date" min="{{ today }}" required>
+                                        <input class="form-control" type="date" name="check_out" min="{{ today }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +43,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Adults</span>
-                                        <select class="form-control" name="adult_count" required>
+                                        <select class="form-control" name="adult" required>
                                             <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
@@ -64,7 +54,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Children</span>
-                                        <select class="form-control" name="children_count" required>
+                                        <select class="form-control" name="Children" required>
                                             <option>0</option>
                                             <option>1</option>
                                             <option>2</option>
@@ -73,7 +63,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -88,30 +77,25 @@
                                     </div>
                                 </div>
                             </div>
-
                             <style>
-                                /* Add this style for the submit button */
                                 .form-btn {
-                                    text-align: center; /* Align button in the center if needed */
+                                    text-align: center;
                                 }
-                            
                                 .submit {
-                                    background-color: #007bff; /* Button background color */
-                                    color: #fff; /* Text color */
-                                    padding: 10px 20px; /* Padding around text */
-                                    font-size: 16px; /* Font size */
-                                    border: none; /* Remove button border */
-                                    cursor: pointer; /* Add a pointer cursor on hover */
-                                    border-radius: 5px; /* Add a slight border radius for rounded corners */
+                                    background-color: #007bff;
+                                    color: #fff;
+                                    padding: 10px 20px;
+                                    font-size: 16px;
+                                    border: none;
+                                    cursor: pointer;
+                                    border-radius: 5px;
                                 }
-                            
-                                /* Style the button on hover with green background */
                                 .submit:hover {
-                                    background-color: #00cc00; /* Green background color on hover */
+                                    background-color: #00cc00;
                                 }
                             </style>
                             <div class="form-btn">
-                                <button class="submit" type="submit"  onclick="showErrorMessage()">Submit</button>
+                                <button class="submit" type="submit">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -121,9 +105,8 @@
     </div>
     <script>
         var today = new Date().toISOString().split('T')[0];
-        document.getElementsByName("check_in_date")[0].setAttribute('min', today);
-        document.getElementsByName("check_out_date")[0].setAttribute('min', today);
+        document.getElementsByName("check_in")[0].setAttribute('min', today);
+        document.getElementsByName("check_out")[0].setAttribute('min', today);
     </script>
 </body>
-
 </html>

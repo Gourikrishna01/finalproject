@@ -80,14 +80,14 @@
 				}
 	
 				// Validate email
-				var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-				if (!emailRegex.test(email)) {
-					document.getElementById("emailError").innerHTML = "Enter a valid email address.";
-					return false;
-				} else {
-					document.getElementById("emailError").innerHTML = "";
-				}
-	
+				var emailRegex = /^[a-zA-Z0-9._-]+@(?!.*\.(c|co)$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById("emailError").innerHTML = "Enter a valid email address.";
+            return false;
+        } else {
+            document.getElementById("emailError").innerHTML = "";
+        }
+
 				// Validate password
 				var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/;
 				if (!passwordRegex.test(password)) {

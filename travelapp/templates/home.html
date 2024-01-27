@@ -43,8 +43,8 @@
                       <ul class="list-unstyled menu">
                         <li class="active"><a href="index.html">Home</a></li>
                        
-                        <li><a href="{% url 'travelapp:hotel' %}">About</a></li>
-                        <li><a href="{% url 'travelapp:carview'%}">Blog</a></li>
+                        <li><a href="{% url 'travelapp:hotel'%}">About</a></li>
+                        <li><a href="{% url 'travelapp:carview' %}">Blog</a></li>
                         <li><a href="">Search</a></li>
                       </ul>
                     </div>
@@ -65,7 +65,7 @@
                             <li><a href="#">Twitter</a></li>
                             <li><a href="#">Facebook</a></li>
                             <li><a href="#">Instagram</a></li>
-                            <li><a href="{% url 'travelapp:dashboard' %}">Profile</a></li>
+                            <li><a href="">Profile</a></li>
                           </ul>
                         </div>
                       </div>
@@ -87,7 +87,7 @@
 
             <h1 class="heading" data-aos="fade-up">Welcome to <em>Villa</em> resort</h1>
             <p class="sub-heading mb-5" data-aos="fade-up" data-aos-delay="100">Discover our world-class hotel &amp; restaurant resort.</p>
-            <p data-aos="fade-up" data-aos-delay="100"><a href="{% url 'travelapp:search' %}" class="btn uppercase btn-primary mr-md-2 mr-0 mb-3 d-sm-inline d-block">Explore The Beauty</a> <a href="#" class="btn uppercase btn-outline-light d-sm-inline d-block">Download</a></p>
+            <p data-aos="fade-up" data-aos-delay="100"><a href="" class="btn uppercase btn-primary mr-md-2 mr-0 mb-3 d-sm-inline d-block">Explore The Beauty</a> <a href="#" class="btn uppercase btn-outline-light d-sm-inline d-block">Download</a></p>
           </div>
         </div>
         <!-- <a href="#" class="scroll-down">Scroll Down</a> -->
@@ -111,7 +111,7 @@
               <a href="/book/{{package.pname}}/"><img src="{{package.images.url}}" alt="Image placeholder" class="img-fluid"> </a>
               <h3><a href="">{{package.pname}}</a></h3>
               <!-- Button for Review -->
-              <a href="/rating/{{package.id}}/"class="btn-danger">review</a>
+              <a href=""class="btn-danger">review</a>
 
           </div>
           {% endfor %}
