@@ -81,7 +81,7 @@ class CarBook(models.Model):
         return f"Booking for {self.user} at {self.car_id}"
 
 class Review(models.Model):
-     package = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='ratings')
+     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
      user = models.ForeignKey(User, on_delete=models.CASCADE)
      review=models.CharField(max_length=300)
 

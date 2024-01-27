@@ -16,8 +16,9 @@ urlpatterns = [
    path('carview/', Carlist, name='carview'),
    path('dashboard/',dashboard,name='dashboard'),
    path('package/',Package_list,name='package'),
-   path('Rating/<int:package_id>/',rate_package,name='Rating'),
-   path('list/',hotel_list,name='list')
+   path('list/',hotel_list,name='list'),
+   path('carlist/',car_list,name='carlist'),
+   path('rating/<int:reservation_id>/',rating,name='rating')
   
  
   

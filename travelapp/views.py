@@ -228,33 +228,41 @@ def Package_list(request):
     return render(request, 'Packages_list.html', context)
    
 
-from django.shortcuts import render, redirect
-from .models import Booking, Review
-from django.contrib.auth.decorators import login_required
-
-@login_required
-def rate_package(request, id):
-    if request.method == 'POST':
-        # Fetch the package based on the booking_id
-        package = Reservation.objects.get(pk=id)
-        # Fetch the current user
-        user = request.user
-        # Extract the review from the form data
-        review_text = request.POST.get('review')
-        
-        # Create a new Review instance
-        review = Review(package=package, user=user, review=review_text)
-        review.save()
-        
-        # Redirect to a success page or home page
-        return redirect('travelapp:home')
-    else:
-        # Render the form for submitting the review
-        return render(request, 'Rating.html', {'id': id})
-
 def hotel_list(request):
     # Retrieve hotel bookings for the current user
     user_bookings = HotelConfirm.objects.filter(user=request.user)
     
     # Pass the bookings to the template for rendering
     return render(request, 'hotel_list.html', {'user_bookings': user_bookings})
+
+
+from django.shortcuts import render
+from .models import CarBook  # Assuming you have a CarBook model defined
+
+def car_list(request):
+    # Filter car bookings for the current user
+    car_bookings = CarBook.objects.filter(user=request.user)
+    context = {'car_bookings': car_bookings}
+    return render(request, 'Car_list.html', context)
+
+
+from django.shortcuts import render, redirect
+from .models import Review, Reservation
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def rating(request, reservation_id):
+    if request.method == 'POST':
+        reservation = Reservation.objects.get(id=reservation_id)
+        user = request.user
+        review_text = request.POST.get('review_text', '')
+
+        # Check if the reservation belongs to the current user
+        if reservation.user == user:
+            Review.objects.create(package=reservation, user=user, review=review_text)
+            return redirect('travelapp:home')  # Redirect to the homepage after successful review
+        else:
+            return render(request, 'error.html', {'error_message': 'You are not authorized to review this package.'})
+    else:
+        reservation = Reservation.objects.get(id=reservation_id)
+        return render(request, 'Rating.html', {'reservation': reservation})

@@ -22,7 +22,9 @@
                         <p class="card-text">Number of Adults: {{ reservation.adult }}</p>
                         <p class="card-text">Number of Children: {{ reservation.children }}</p>
                         <a href=""class="btn btn-secondary">Update</a>
-                        <a href="/Rating/{{package.id}}" class="btn btn-primary">Review</a>
+                        <a href="{% url 'travelapp:rating' reservation_id=reservation.id %}" class="btn btn-primary">Review</a>
+
+
 
                     </div>
                 </div>
