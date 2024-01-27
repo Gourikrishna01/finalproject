@@ -34,14 +34,17 @@
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse"
                             aria-expanded="false"><i class="fa-solid fa-file-lines pe-2"></i>
-                            Pages
+                            Packages
                         </a>
                         <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Page 1</a>
+                                <a href="{% url 'travelapp:package'%}" class="sidebar-link">Package</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Page 2</a>
+                                <a href="{% url 'travelapp:list' %}" class="sidebar-link">hotel</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a href="#" class="sidebar-link">car</a>
                             </li>
                         </ul>
                     </li>
@@ -119,7 +122,7 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="#" class="dropdown-item">Profile</a>
                                 <a href="#" class="dropdown-item">Setting</a>
-                                <a href="#" class="dropdown-item">Logout</a>
+                                <a href="/logout" class="dropdown-item">Logout</a>
                             </div>
                         </li>
                     </ul>
@@ -162,13 +165,13 @@
                                             </p>
                                             <div class="mb-0">
                                                 <!-- Package Button -->
-                                                <a href="#" class="btn btn-primary me-2">Package</a>
+                                                <a href=""class="btn btn-primary me-2">Package</a>
                                             
                                                 <!-- Hotel Button -->
-                                                <a href="#" class="btn btn-secondary me-2">Hotel</a>
+                                                <a href="{% url 'travelapp:hotel'%}" class="btn btn-secondary me-2">Hotel</a>
                                             
                                                 <!-- Car Button -->
-                                                <a href="#" class="btn btn-info">Car</a>
+                                                <a href="{% url 'travelapp:carview' %}"class="btn btn-info">Car</a>
                                             </div>
                                             
                                         </div>
@@ -188,18 +191,8 @@
                             </a>
                         </div>
                     </div>
-                    <ul>
-                        {% for user_reservation in user_reservations %}
-                            <li>
-                                <strong>Package:</strong> {{ reservation.package.pname }}<br>
-                                <strong>Check-in Date:</strong> {{ reservation.checkIN }}<br>
-                                <strong>Check-out Date:</strong> {{ reservation.checkOut }}<br>
-                                <strong>Number of Adults:</strong> {{ reservation.adult_count }}<br>
-                                <strong>Number of Children:</strong> {{ reservation.Children_count }}<br>
-                            </li>
-                        {% endfor %}
-                    </ul>
                   
+                      
                 
                 </div>
             </main>

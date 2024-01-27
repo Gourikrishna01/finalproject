@@ -69,7 +69,7 @@ def home(request):
     
     return render(request,'home.html',context)
 from django.shortcuts import render, redirect
-
+from django.contrib import messages
 from .models import Reservation, Booking
 
 def booking(request, pname):
@@ -81,16 +81,23 @@ def booking(request, pname):
         adult = request.POST.get('adult')
         children = request.POST.get('children')
         
-        # Create a new Reservation instance
-        reservation = Reservation(user=user, package=booking, check_in=check_in, check_out=check_out, adult=adult, children=children)
-        reservation.save()
+        # Check if there's any existing reservation for the same date
+        existing_reservation = Reservation.objects.filter(package=booking, check_in=check_in).exists()
         
-        # Redirect to a success page or home page
-        return redirect('travelapp:home')
+        if existing_reservation:
+            # Alert message for already booked date
+            messages.error(request, f"This package is already booked for {check_in}. Please choose a different date.")
+            return redirect('travelapp:book', pname=pname)
+        else:
+            # Create a new Reservation instance
+            reservation = Reservation(user=user, package=booking, check_in=check_in, check_out=check_out, adult=adult, children=children)
+            reservation.save()
+            # Redirect to a success page or home page
+            return redirect('travelapp:home')
     else:
         # Render the booking form
         return render(request, 'Booking.html', {'pname': pname})
-    
+
 def HotelView(request):
     hotels = Hotel.objects.all()
     context = {'hotels': hotels}
@@ -206,3 +213,48 @@ def carbook(request, car_id):
             messages.error(request, 'Some fields are missing')
 
     return render(request, 'CarBooking.html', {'car_instance': car_instance, 'car_id': car_id})
+
+
+
+def dashboard(request):
+   return render(request, 'dashboard.html')
+
+
+def Package_list(request):
+   
+    # Retrieve all reservations made by the current user
+    user_reservations = Reservation.objects.filter(user=request.user)
+    context = {'user_reservations': user_reservations}
+    return render(request, 'Packages_list.html', context)
+   
+
+from django.shortcuts import render, redirect
+from .models import Booking, Review
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def rate_package(request, id):
+    if request.method == 'POST':
+        # Fetch the package based on the booking_id
+        package = Reservation.objects.get(pk=id)
+        # Fetch the current user
+        user = request.user
+        # Extract the review from the form data
+        review_text = request.POST.get('review')
+        
+        # Create a new Review instance
+        review = Review(package=package, user=user, review=review_text)
+        review.save()
+        
+        # Redirect to a success page or home page
+        return redirect('travelapp:home')
+    else:
+        # Render the form for submitting the review
+        return render(request, 'Rating.html', {'id': id})
+
+def hotel_list(request):
+    # Retrieve hotel bookings for the current user
+    user_bookings = HotelConfirm.objects.filter(user=request.user)
+    
+    # Pass the bookings to the template for rendering
+    return render(request, 'hotel_list.html', {'user_bookings': user_bookings})

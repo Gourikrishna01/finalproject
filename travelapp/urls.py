@@ -14,6 +14,10 @@ urlpatterns = [
    path('book_hotel/<int:hotel_id>/',book_hotel,name='book_hotel'),
    path('carbook/<int:car_id>/', carbook, name='carbook'),
    path('carview/', Carlist, name='carview'),
+   path('dashboard/',dashboard,name='dashboard'),
+   path('package/',Package_list,name='package'),
+   path('Rating/<int:package_id>/',rate_package,name='Rating'),
+   path('list/',hotel_list,name='list')
   
  
   

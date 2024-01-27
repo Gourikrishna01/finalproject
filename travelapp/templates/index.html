@@ -85,9 +85,9 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
                             <div class="dropdown-menu border-0 rounded-0 m-0">
-                                <a href="blog.html" class="dropdown-item">upcoming trips</a>
+                                <a href="{% url 'travelapp:register' %}" class="dropdown-item">upcoming trips</a>
                                 <a href="single.html" class="dropdown-item">details</a>
-                                <a href="testimonial.html" class="dropdown-item">Profile</a>
+                                <a href="{% url 'travelapp:login' %}" class="dropdown-item">Profile</a>
                             </div>
                         </div>
                         
@@ -109,7 +109,7 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h4 class="text-white text-uppercase mb-md-3">Tours & Travel</h4>
                             <h1 class="display-3 text-white mb-md-4">Let's Discover The World Together</h1>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
+                            <a href="{% url 'travelapp:login' %}" class="btn btn-primary py-md-3 px-md-5 mt-2">Book Now</a>
                         </div>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
                                 <img class="img-fluid" src="../static/img/about-2.jpg" alt="">
                             </div>
                         </div>
-                        <a href="" class="btn btn-primary mt-1">Book Now</a>
+                        <a href="{% url 'travelapp:login' %}" class="btn btn-primary mt-1">Book Now</a>
                     </div>
                 </div>
             </div>
