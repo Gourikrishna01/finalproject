@@ -108,22 +108,18 @@
 			var arrivalDate = document.getElementById("arrival_date").value;
 			var departureDate = document.getElementsByName("departure_date")[0].value;
 
-			if (arrivalDate < today) {
-				showError("Please select a valid Check In date.");
-			} else if (departureDate < today) {
-				showError("Please select a valid Check Out date.");
-			} else {
-				// Continue with form submission or other actions
-				document.getElementById("error-message").style.display = 'none';
-				// ...
-			}
+			// if (arrivalDate < today) {
+			// 	showError("Please select a valid Check In date.");
+			// } else if (departureDate < today) {
+			// 	showError("Please select a valid Check Out date.");
+			// } else {
+			// 	// Continue with form submission or other actions
+			// 	document.getElementById("error-message").style.display = 'none';
+			// 	// ...
+			// }
 		}
 
-		function showError(message) {
-			var errorMessage = document.getElementById('error-message');
-			errorMessage.innerHTML = message;
-			errorMessage.style.display = 'block';
-		}
+		
 	</script>
 </body>
 

@@ -68,9 +68,6 @@ def home(request):
     context={'packages':packages}
     
     return render(request,'home.html',context)
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import Reservation, Booking
 
 def booking(request, pname):
     if request.method == 'POST':
@@ -118,13 +115,13 @@ def book_hotel(request, hotel_id):
         user_instance = request.user
 
         # Ensure that dates are parsed correctly (assuming proper format from the form)
-        # and stored as datetime objects in the database
-        try:
-            arrival_date = datetime.strptime(arrival_date, '%Y-%m-%d').date()
-            departure_date = datetime.strptime(departure_date, '%Y-%m-%d').date()
-        except ValueError:
-            messages.error(request, 'Invalid date format. Please use YYYY-MM-DD.')
-            return redirect('booking_hotel', hotel_id=hotel_id)
+        # # and stored as datetime objects in the database
+        # try:
+        #     arrival_date = datetime.strptime(arrival_date, '%Y-%m-%d').date()
+        #     departure_date = datetime.strptime(departure_date, '%Y-%m-%d').date()
+        # except ValueError:
+        #     messages.error(request, 'Invalid date format. Please use YYYY-MM-DD.')
+        #     return redirect('booking_hotel', hotel_id=hotel_id)
 
         # Check for existing bookings on the selected dates
         existing_booking = HotelConfirm.objects.filter(
@@ -246,11 +243,6 @@ def car_list(request):
     return render(request, 'Car_list.html', context)
 
 
-from django.shortcuts import render, redirect
-from .models import Review, Reservation
-from django.contrib.auth.decorators import login_required
-
-@login_required
 def rating(request, reservation_id):
     if request.method == 'POST':
         reservation = Reservation.objects.get(id=reservation_id)
@@ -260,9 +252,40 @@ def rating(request, reservation_id):
         # Check if the reservation belongs to the current user
         if reservation.user == user:
             Review.objects.create(package=reservation, user=user, review=review_text)
+            messages.success(request, 'Review added successfully.')
             return redirect('travelapp:home')  # Redirect to the homepage after successful review
         else:
-            return render(request, 'error.html', {'error_message': 'You are not authorized to review this package.'})
+            messages.error(request, 'You are not authorized to review this package.')
+            return redirect('travelapp:rating')  # Redirect to the homepage due to unauthorized access
     else:
         reservation = Reservation.objects.get(id=reservation_id)
         return render(request, 'Rating.html', {'reservation': reservation})
+
+
+def update_package(request, reservation_id):
+    try:
+        reservation = Reservation.objects.get(id=reservation_id)
+    except Reservation.DoesNotExist:
+        return render(request, 'error.html', {'error_message': 'Reservation does not exist.'})
+
+    if request.method == 'POST':
+        # Update the package details
+        new_package_id = request.POST.get('new_package_id')
+        reservation.package_id = new_package_id
+        reservation.save()
+        return redirect('travelapp:home')  # Redirect to the homepage after successful update
+
+    return render(request, 'update_package.html', {'reservation': reservation})
+
+def search(request):
+    return render(request,'search.html')
+
+
+def details(request):
+    query=request.GET.get('query')
+    package=Booking.objects.filter(pname__icontains=query)
+    context={
+
+        'package':package
+    }
+    return render(request,'details.html',context)

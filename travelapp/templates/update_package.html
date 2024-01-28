@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Package</title>
+</head>
+<body>
+    <h1>Update Package</h1>
+    <p>Current Package: {{ reservation.package }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="new_package">Select New Package:</label>
+        <select name="new_package_id" id="new_package">
+            {% for package in all_packages %}
+                <option value="{{ package.check_in }}">{{ package.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Update Package</button>
+    </form>
+</body>
+</html>

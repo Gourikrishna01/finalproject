@@ -21,7 +21,7 @@
                         <p class="card-text">Check-out Date: {{ reservation.check_out }}</p>
                         <p class="card-text">Number of Adults: {{ reservation.adult }}</p>
                         <p class="card-text">Number of Children: {{ reservation.children }}</p>
-                        <a href=""class="btn btn-secondary">Update</a>
+                        <a href="{% url 'travelapp:update' reservation_id=reservation.id %}"class="btn btn-secondary">Update</a>
                         <a href="{% url 'travelapp:rating' reservation_id=reservation.id %}" class="btn btn-primary">Review</a>
 
 

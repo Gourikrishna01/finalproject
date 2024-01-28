@@ -18,7 +18,11 @@ urlpatterns = [
    path('package/',Package_list,name='package'),
    path('list/',hotel_list,name='list'),
    path('carlist/',car_list,name='carlist'),
-   path('rating/<int:reservation_id>/',rating,name='rating')
+   path('rating/<int:reservation_id>/',rating,name='rating'),
+
+   path('update/<int:reservation_id>/', update_package, name='update'),
+   path('search/',search,name='search'),
+   path('details/',details,name='details'),
   
  
   
