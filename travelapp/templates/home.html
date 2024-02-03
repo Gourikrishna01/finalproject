@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Mukta+Mahee:200,300,400|Playfair+Display:400,700" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-eFxnogIjf4BvofVgcpHSJt1zkF7ZP6FkvwWaIcY8D5m+qoOH8HH2LyxgDYV58cT1USh4hREvNTy8oZDfDS33xg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/bootstrap.css">
     <link rel="stylesheet" href="../static/css/animate.css">
     <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
@@ -15,10 +16,12 @@
     
     <link rel="stylesheet" href="../static/fonts/fonts/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="../static/fonts/fonts/fontawesome/css/font-awesome.min.css">
-
+   
     <!-- Theme Style -->
     <link rel="stylesheet" href="../static/css/home.css">
     <link rel="stylesheet" href="../static/css/Button.css">
+    <link rel="stylesheet" href="../static/css/Box.css">
+   
   </head>
   <body>
     
@@ -105,16 +108,25 @@
     
 
 
-        <div class="row">
+        <div class="card mb-3" style="max-width: 540px;">
           {% for package in packages %}
-          <div class="col-lg-3 col-md-6 visit mb-3" data-aos="fade-right">
-              <a href="/book/{{package.pname}}/"><img src="{{package.images.url}}" alt="Image placeholder" class="img-fluid"> </a>
-              <h3><a href="">{{package.pname}}</a></h3>
-              <!-- Button for Review -->
-              
-
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <a href="{% url 'travelapp:package_details' %}">
+                <img src="{{package.images.url}}" class="card-img" style="height: fit-content;" alt="...">
+              </a>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{package.pname}}</h5>
+                <p class="card-text">{{package.description}}</p>
+                <p class="card-text"><small class="text-muted">{{package.amount}}</small></p>
+              </div>
+            </div>
           </div>
           {% endfor %}
+        </div>
+        
           
 
     </section>

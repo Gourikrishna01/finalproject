@@ -12,10 +12,20 @@ class userLogin(models.Model):
                 return str(self.user.username)
 
 
+class Category(models.Model):
+     Categoryname=models.CharField(max_length=200)
+     def __str__(self):
+          return str(self.Categoryname)
+
+
 class Booking(models.Model):
     pname=models.CharField(max_length=20,primary_key=True)
     amount=models.IntegerField()
     images=models.ImageField(upload_to='travelimages/',blank=True)
+    description=models.CharField(max_length=100)
+    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    
+
 
     def __str__(self) :
            return str(self.pname)
@@ -25,8 +35,7 @@ class Booking(models.Model):
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     package = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    check_in = models.DateField(null=True, blank=True)
-    check_out = models.DateField(null=True, blank=True)
+    date=models.DateField()
     adult = models.IntegerField(null=True, blank=True)
     children = models.IntegerField(null=True, blank=True)
     
@@ -41,6 +50,8 @@ class Hotel(models.Model):
       address=models.TextField(max_length=100)
       images=models.ImageField(upload_to='travelimages/',blank=True)
       price=models.IntegerField()
+      roomtype=models.CharField(max_length=100)
+      checkout=models.IntegerField()
       def __str__(self) :
             return str(self.name)
 
@@ -63,6 +74,8 @@ class CarView(models.Model):
       year=models.IntegerField()
       seats=models.IntegerField()
       image=models.ImageField(upload_to='travelimages/',blank=True)
+      petrolcharge=models.IntegerField()
+      rent=models.IntegerField()
       def __str__(self):
             return str(self.brand)
       
@@ -76,6 +89,9 @@ class CarBook(models.Model):
     arrival_date = models.DateField()
     departure_date = models.DateField()
     destination = models.CharField(max_length=50)
+    licesence=models.CharField(max_length=100)
+    idproof=models.IntegerField()
+    deposit=models.IntegerField()
 
     def __str__(self):
         return f"Booking for {self.user} at {self.car_id}"

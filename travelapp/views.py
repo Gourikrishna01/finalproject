@@ -256,26 +256,37 @@ def rating(request, reservation_id):
             return redirect('travelapp:home')  # Redirect to the homepage after successful review
         else:
             messages.error(request, 'You are not authorized to review this package.')
-            return redirect('travelapp:rating')  # Redirect to the homepage due to unauthorized access
+            return redirect('travelapp:rating')  
     else:
         reservation = Reservation.objects.get(id=reservation_id)
         return render(request, 'Rating.html', {'reservation': reservation})
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Reservation
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def update_package(request, reservation_id):
-    try:
-        reservation = Reservation.objects.get(id=reservation_id)
-    except Reservation.DoesNotExist:
-        return render(request, 'error.html', {'error_message': 'Reservation does not exist.'})
-
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+    
     if request.method == 'POST':
-        # Update the package details
-        new_package_id = request.POST.get('new_package_id')
-        reservation.package_id = new_package_id
+        # Assuming you have form data in request.POST, you can directly update the model fields
+        reservation.check_in = request.POST.get('check_in')
+        reservation.check_out = request.POST.get('check_out')
+        reservation.adult = request.POST.get('adult')
+        reservation.children = request.POST.get('children')
+        
         reservation.save()
-        return redirect('travelapp:home')  # Redirect to the homepage after successful update
-
+        # Redirect to the package list view after update
+        return redirect('travelapp:package')
+    
+    # Render a template with a form for updating the reservation
     return render(request, 'update_package.html', {'reservation': reservation})
+
+   
+
+
 
 def search(request):
     return render(request,'search.html')
@@ -289,3 +300,6 @@ def details(request):
         'package':package
     }
     return render(request,'details.html',context)
+
+def package_details(request):
+    return render(request,'packages_details.html')

@@ -3,20 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Package</title>
+    <title>Update Reservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input[type="date"],
+        input[type="number"],
+        button {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Update Package</h1>
-    <p>Current Package: {{ reservation.package }}</p>
-    <form method="POST">
+    <h1>Update Reservation</h1>
+    <form method="post">
         {% csrf_token %}
-        <label for="new_package">Select New Package:</label>
-        <select name="new_package_id" id="new_package">
-            {% for package in all_packages %}
-                <option value="{{ package.check_in }}">{{ package.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Update Package</button>
+        <label for="check_in">Check In:</label>
+        <input type="date" id="check_in" name="check_in" value="{{ reservation.check_in|date:'Y-m-d' }}" min="{{ today }}">
+        <label for="check_out">Check Out:</label>
+        <input type="date" id="check_out" name="check_out" value="{{ reservation.check_out|date:'Y-m-d' }}" min="{{ today }}">
+        <label for="adult">Adult:</label>
+        <input type="number" id="adult" name="adult" value="{{ reservation.adult }}">
+        <label for="children">Children:</label>
+        <input type="number" id="children" name="children" value="{{ reservation.children }}">
+        <button type="submit">Update</button>
     </form>
 </body>
+<script>
+    // Get today's date in the format required by the date input (YYYY-MM-DD)
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("check_in").setAttribute('min', today);
+    document.getElementById("check_out").setAttribute('min', today);
+</script>
+
 </html>

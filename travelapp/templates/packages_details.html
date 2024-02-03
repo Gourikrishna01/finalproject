@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"href='../static/css/style.css'>
+    <link rel="stylesheet"href='../static/css/Box.css'>
+</head>
+<body>
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+            <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+                <a href="" class="navbar-brand">
+                    <h1 class="m-0 text-primary"><span class="text-dark">Voyage</span>Vista</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="about.html" class="nav-item nav-link">Services</a>
+                        <a href="{%url 'travelapp:login' %}"class="nav-item nav-link">Sign In</a>
+                        <a href="{%url 'travelapp:register' %}" class="nav-item nav-link">Sign Up</a>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
+                            <div class="dropdown-menu border-0 rounded-0 m-0">
+                                <a href="{% url 'travelapp:register' %}" class="dropdown-item">Upcoming Trips</a>
+                                <a href="single.html" class="dropdown-item">Details</a>
+                                <a href="{% url 'travelapp:login' %}" class="dropdown-item">Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="container-fluid position-relative">
+        <img src="/travelimages/OIP_IilU9Ma.jpeg" alt="Your Image" style="position: absolute; top: 10%; left: 0; transform: translateY(-10%); width: 100%; height: 20svh; z-index: 8;">
+    </div>
+    
+    
+    
+    
+    
+</body>
+</html>
