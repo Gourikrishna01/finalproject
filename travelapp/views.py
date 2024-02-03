@@ -302,4 +302,6 @@ def details(request):
     return render(request,'details.html',context)
 
 def package_details(request):
-    return render(request,'packages_details.html')
+   
+    categories = Category.objects.all()
+    return render(request, 'packages_details.html', {'categories': categories})

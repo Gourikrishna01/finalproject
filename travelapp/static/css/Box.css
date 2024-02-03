@@ -1,25 +1,28 @@
-html {
-  height: 100%;
-  width: 100%;
-}
-
-body {
-  display: table;
-  height: 100%;
-  margin: 0;
+.navbar-nav {
+  list-style: none;
   padding: 0;
-  width: 100%;
+  margin: 0;
+  display: flex; /* Change to flex display */
 }
 
-.row {
-  display: table-row;
-  height: 50%;
+.nav-item {
+  margin-right: 10px; /* Add margin between items for spacing */
 }
 
-.row:nth-child(1) {
-  background-color: #eee;
+.nav-link {
+  text-decoration: none;
+  color: #000000;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
-.row:nth-child(2) {
-  background-color: #ddd;
+.nav-link:hover {
+  background-color: #f8f9fa;
+  color: #000000;
+}
+
+.nav-link:focus,
+.nav-link:active {
+  background-color: #f8f9fa;
+  color: #000000;
 }

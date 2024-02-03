@@ -103,3 +103,12 @@ class Review(models.Model):
 
      def __str__(self):
         return f"Booking for {self.user} at {self.package}"
+     
+
+
+class Places(models.Model):
+     category=models.ForeignKey(Category,on_delete=models.CASCADE)
+     name=models.CharField(max_length=200)
+     days=models.IntegerField()
+     night=models.IntegerField()
+     image=models.ImageField(upload_to='travelimages/',blank=True)
