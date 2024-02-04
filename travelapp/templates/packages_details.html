@@ -6,57 +6,57 @@
     <title>Document</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/Box.css">
-    <script>
-        // Smooth scroll to anchor links
-        document.addEventListener("DOMContentLoaded", function() {
-            const links = document.querySelectorAll('a.nav-link');
-            for (const link of links) {
-                link.addEventListener('click', smoothScroll);
-            }
-            
-            function smoothScroll(event) {
-                event.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    const offsetTop = targetElement.offsetTop;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    </script>
+    <link rel="stylesheet"href='../static/css/Card.css'>
 </head>
 <body>
     <header>
         <div class="container-fluid position-relative nav-bar p-0">
             <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
-                    <a href="" class="navbar-brand">
+                    <a href="#" class="navbar-brand">
                         <h1 class="m-0 text-primary"><span class="text-dark">Voyage</span>Vista</h1>
                     </a>
                     
-                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <button type="button" class="navbar-toggler">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse justify-content-between px-3" >
-                        <div class="navbar-nav ml-auto py-0">
-                            <ul class="navbar-nav" id="navbarCollapse">
-                                {% for category in categories %}
-                                    <li class="nav-item"><a href="#{{ category.Categoryname }}" class="nav-link">{{ category.Categoryname }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </div> 
+                    <div class="navbar-nav ml-auto py-0">
+                        <ul class="navbar-nav">
+                            <a href="{% url 'travelapp:package_details' %}" class="nav-link">All</a>
+                            {% for category in categories %}
+                            <a href="?category_id={{ category.id }}" class="nav-link">{{ category.Categoryname }}</a>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </nav>
             </div>
         </div>
     </header>
-
-    <div id="content">
-        <h1>helooo...</h1>
+    
+    <div class="container mt-5">
+        <div class="row">
+            {% for place in places %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <a href="{% url 'travelapp:package_review' %}">
+                        <img class="card-img-top" src="{{ place.image.url }}" alt="Card image cap">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ place.name }}</h5>
+                        <p class="card-text">{{ place.description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ place.days }} Days, {{ place.night }} Nights</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</body>
+    
+    
+  
+  </body>
+  
+
+    
+    
 </html>

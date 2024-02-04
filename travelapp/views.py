@@ -301,7 +301,24 @@ def details(request):
     }
     return render(request,'details.html',context)
 
+
+
+
+from django.shortcuts import get_object_or_404
+
 def package_details(request):
-   
-    categories = Category.objects.all()
-    return render(request, 'packages_details.html', {'categories': categories})
+    categories = Category.objects.all()  # Retrieve all category objects
+    category_id = request.GET.get('category_id')
+    
+    if category_id:
+        selected_category = get_object_or_404(Category, id=category_id)
+        places = Places.objects.filter(category_id=category_id)
+    else:
+        selected_category = None
+        places = Places.objects.all()
+    
+    context = {'categories': categories, 'places': places, 'selected_category': selected_category}
+    return render(request, 'packages_details.html', context)
+
+def Package_review(request):
+    return render(request,'Packages.html')

@@ -23,7 +23,10 @@ urlpatterns = [
    path('update/<int:reservation_id>/', update_package, name='update'),
    path('search/',search,name='search'),
    path('details/',details,name='details'),
-   path('package_details/',package_details,name='package_details')
+   path('package_details/',package_details,name='package_details'),
+   path('package_review/',Package_review,name='package_review')
+
+
   
  
   

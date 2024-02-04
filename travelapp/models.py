@@ -112,3 +112,7 @@ class Places(models.Model):
      days=models.IntegerField()
      night=models.IntegerField()
      image=models.ImageField(upload_to='travelimages/',blank=True)
+     description=models.CharField(max_length=2000)
+
+     def __str__(self):
+          return f"{self.name}  - {self.category}" 
