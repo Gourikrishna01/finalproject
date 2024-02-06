@@ -23,7 +23,7 @@ class Booking(models.Model):
     amount=models.IntegerField()
     images=models.ImageField(upload_to='travelimages/',blank=True)
     description=models.CharField(max_length=100)
-    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+
     
 
 
@@ -32,16 +32,6 @@ class Booking(models.Model):
     
 
 
-class Reservation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    package = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    date=models.DateField()
-    adult = models.IntegerField(null=True, blank=True)
-    children = models.IntegerField(null=True, blank=True)
-    
-    def __str__(self):
-         
-        return f"Booking for {self.user} at {self.package}"
        
 
 class Hotel(models.Model):
@@ -96,13 +86,6 @@ class CarBook(models.Model):
     def __str__(self):
         return f"Booking for {self.user} at {self.car_id}"
 
-class Review(models.Model):
-     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
-     user = models.ForeignKey(User, on_delete=models.CASCADE)
-     review=models.CharField(max_length=300)
-
-     def __str__(self):
-        return f"Booking for {self.user} at {self.package}"
      
 
 
@@ -116,3 +99,59 @@ class Places(models.Model):
 
      def __str__(self):
           return f"{self.name}  - {self.category}" 
+     
+
+
+class Itineary(models.Model):
+    place=models.ForeignKey(Places,on_delete=models.CASCADE)
+    description=models.CharField(max_length=200)
+    name=models.CharField(max_length=50)
+    hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
+    date = models.DateField()
+    month = models.CharField(max_length=50)
+    day_of_week = models.CharField(max_length=50)
+
+    def display_format(self):
+        # Format the date as "DD Mon, Day"
+        return f"{self.date.strftime('%d %b')}, {self.day_of_week}"
+    
+    def  __str__(self):
+         return f"{self.name} - {self.display_format()}"
+    
+
+class Activities(models.Model):
+     name=models.CharField(max_length=100)
+     details=models.CharField(max_length=200)
+     image=models.ImageField(upload_to='travelimages/')
+     price=models.IntegerField()
+
+     def  __str__(self):
+          return self.name
+     
+class Itenary_User_Details(models.Model):
+     itenary=models.ForeignKey(Itineary,on_delete=models.CASCADE)
+     user=models.ForeignKey(User,on_delete=models.CASCADE)
+     activity=models.ForeignKey(Activities,on_delete=models.CASCADE)
+
+
+
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    package = models.ForeignKey(Places, on_delete=models.CASCADE)
+    date=models.DateField()
+    adult = models.IntegerField(null=True, blank=True)
+    children = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+         
+        return f"Booking for {self.user} at {self.package}"
+    
+
+
+class Review(models.Model):
+     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     review=models.CharField(max_length=300)
+
+     def __str__(self):
+        return f"Booking for {self.user} at {self.package}"
