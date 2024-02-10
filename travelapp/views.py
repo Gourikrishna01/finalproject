@@ -320,5 +320,8 @@ def package_details(request):
     context = {'categories': categories, 'places': places, 'selected_category': selected_category}
     return render(request, 'packages_details.html', context)
 
-def Package_review(request):
-    return render(request,'Packages.html')
+
+def itineary(request):
+    return render(request,'itenary.html')
+
+

@@ -86,7 +86,10 @@ class CarBook(models.Model):
     def __str__(self):
         return f"Booking for {self.user} at {self.car_id}"
 
-     
+
+
+
+
 
 
 class Places(models.Model):
@@ -96,6 +99,8 @@ class Places(models.Model):
      night=models.IntegerField()
      image=models.ImageField(upload_to='travelimages/',blank=True)
      description=models.CharField(max_length=2000)
+ 
+     
 
      def __str__(self):
           return f"{self.name}  - {self.category}" 
@@ -117,6 +122,9 @@ class Itineary(models.Model):
     
     def  __str__(self):
          return f"{self.name} - {self.display_format()}"
+
+
+    
     
 
 class Activities(models.Model):
