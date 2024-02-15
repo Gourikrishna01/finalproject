@@ -321,7 +321,8 @@ def package_details(request):
     return render(request, 'packages_details.html', context)
 
 
-def itineary(request):
-    return render(request,'itenary.html')
-
-
+def itinerary(request, place_id):
+    place = get_object_or_404(Places, id=place_id)
+    itineraries = Itineary.objects.filter(place=place)
+    context = {'itineraries': itineraries}
+    return render(request, 'itenary.html', context)

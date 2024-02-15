@@ -24,7 +24,7 @@ urlpatterns = [
    path('search/',search,name='search'),
    path('details/',details,name='details'),
    path('package_details/',package_details,name='package_details'),
-   path('itineary/',itineary,name='itineary')
+   path('itinerary/<int:place_id>/', itinerary, name='itinerary'),
 
 
 
