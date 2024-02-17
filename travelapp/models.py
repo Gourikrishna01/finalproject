@@ -107,15 +107,41 @@ class Places(models.Model):
      
 
 
+class Places_place(models.Model):
+     name=models.CharField(max_length=20)
+     def __str__(self):
+          return f"{self.name}"
+
+
+ 
+class Day(models.Model):
+     name=models.CharField(max_length=20)
+     def __str__(self):
+          return f"{self.name}"
+
+
+class Activities(models.Model):
+     days=models.ForeignKey(Day,on_delete=models.CASCADE)
+     name=models.CharField(max_length=100)
+     description=models.CharField(max_length=20)
+     hrs=models.IntegerField()
+     place_covered=models.IntegerField()
+     image=models.ImageField(upload_to='travelimages/')   
+     def __str__(self):
+          return  f"{self.name}" 
+
+
+
 class Itineary(models.Model):
     place=models.ForeignKey(Places,on_delete=models.CASCADE)
+    days=models.ForeignKey(Day,on_delete=models.CASCADE)
     description=models.CharField(max_length=200)
-    name=models.CharField(max_length=50)
+    name=models.ForeignKey(Places_place,on_delete=models.CASCADE)
     hotel=models.ForeignKey(Hotel,on_delete=models.CASCADE)
     date = models.DateField()
     month = models.CharField(max_length=50)
     day_of_week = models.CharField(max_length=50)
-
+    activity=models.ForeignKey(Activities,on_delete=models.CASCADE)
     def display_format(self):
         # Format the date as "DD Mon, Day"
         return f"{self.date.strftime('%d %b')}, {self.day_of_week}"
@@ -124,25 +150,10 @@ class Itineary(models.Model):
          return f"{self.name} - {self.display_format()}"
 
 
-    
-    
-
-class Activities(models.Model):
-     name=models.CharField(max_length=100)
-     details=models.CharField(max_length=200)
-     image=models.ImageField(upload_to='travelimages/')
-     price=models.IntegerField()
-
-     def  __str__(self):
-          return self.name
-     
 class Itenary_User_Details(models.Model):
      itenary=models.ForeignKey(Itineary,on_delete=models.CASCADE)
      user=models.ForeignKey(User,on_delete=models.CASCADE)
      activity=models.ForeignKey(Activities,on_delete=models.CASCADE)
-
-
-
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     package = models.ForeignKey(Places, on_delete=models.CASCADE)
@@ -163,3 +174,5 @@ class Review(models.Model):
 
      def __str__(self):
         return f"Booking for {self.user} at {self.package}"
+     
+
