@@ -1,0 +1,28 @@
+<!-- add_activity.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Activity</title>
+</head>
+<body>
+    <h2>Add Activity</h2>
+    <form method="post" action="{% url 'travelapp:add_activity' days_id=days_id %}">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" required><br>
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" required><br>
+
+        <label for="hrs">Hours:</label>
+        <input type="number" name="hrs" required><br>
+
+        <label for="place_covered">Place Covered:</label>
+        <input type="number" name="place_covered" required><br>
+
+        <button type="submit">Add Activity</button>
+    </form>
+</body>
+</html>

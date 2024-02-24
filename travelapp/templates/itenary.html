@@ -12,31 +12,44 @@
             max-width: 200px; /* Adjust the value as needed */
             height: auto; /* Maintain aspect ratio */
         }
+        a.popupButton {
+            display: inline-block; /* Ensures correct inline behavior */
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            background-color: #4CAF50; /* Primary blue */
+            color: white;
+            text-decoration: none; /* Remove default underline */
+            cursor: pointer; /* Indicate clickable element */
+        }
+
+        a.popupButton:hover {
+            background-color: #3E8E41; /* Darker blue on hover */
+        }
     </style>
 </head>
 <body>
- 
-
     <h1>Here is your plan...</h1>
-    <div>
-      {% for itinerary in itineraries %}
-      <ul>
+    {% for itinerary in itineraries %}
+    <ul>
         <li>
-          <div>
-            <br>
-            <time>{{ itinerary.days.name }}:{{ itinerary.description }}</time>
-            <br>
-            <img class="itinerary-image" src="{{ itinerary.activity.image.url }}" alt="{{ itinerary.activity.name }} Image">
-            <p>{{ itinerary.activity.description }}</p>
-            <p>{{ itinerary.activity.name }}</p>
-           
-            <p>Duration: {{ itinerary.activity.hrs }}</p>
-            <p>Places Covered: {{ itinerary.activity.place_covered }}</p>
-          </div>
+            <div>
+                <br>
+                <time>{{ itinerary.days.name }}:{{ itinerary.description }}</time>
+                <br>
+                <img class="itinerary-image" src="{{ itinerary.activity.image.url }}" alt="{{ itinerary.activity.name }} Image">
+                <p>{{ itinerary.activity.description }}</p>
+                <p>{{ itinerary.activity.name }}</p>
+                <p>Duration: {{ itinerary.activity.hrs }}</p>
+                <p>Places Covered: {{ itinerary.activity.place_covered }}</p>
+            </div>
         </li>
-      </ul>
-      {% endfor %}
-    </div>
+    </ul>
+    <a href="/popup/{{ itinerary.days.id }}/" class="popupButton">Day {{ activity.days.id }}</a>
+
+ {% endfor %}
+
+   
     <script src="{% static 'js/itineary.js' %}"></script>
+
 </body>
 </html>

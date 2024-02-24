@@ -34,7 +34,9 @@
                             <h1>Book a car</h1>
                         </div>
                         <!-- Your HTML form with corrected name attributes -->
-                        <form method="post" action="{% url 'travelapp:carbook' car_id=car_id  %}">
+                        <form method="post" action="{% url 'travelapp:carbook' car_id=car.id %}">
+
+
                             {% csrf_token %}
 
                             <div class="row">
@@ -67,6 +69,27 @@
                                         <span class="form-label">Departure Date</span>
                                         <input class="form-control" id="departure_date" type="date"
                                             name="departure_date" min="{{ today }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <span class="form-label"> licesence</span>
+                                        <input class="form-control" id=" licesence" type="text"
+                                            name=" licesence"  required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <span class="form-label">idproof</span>
+                                        <input class="form-control" id=" idproof" type="text"
+                                            name="idproof"  required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <span class="form-label">  deposit</span>
+                                        <input class="form-control" id="  deposit" type="text"
+                                            name="deposit"  required>
                                     </div>
                                 </div>
                             </div>

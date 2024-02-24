@@ -32,6 +32,93 @@ class Booking(models.Model):
     
 
 
+
+
+class Places(models.Model):
+     category=models.ForeignKey(Category,on_delete=models.CASCADE)
+     name=models.CharField(max_length=200)
+     days=models.IntegerField()
+     night=models.IntegerField()
+     image=models.ImageField(upload_to='travelimages/',blank=True)
+     description=models.CharField(max_length=2000)
+ 
+     
+
+     def __str__(self):
+          return f"{self.name}  - {self.category}" 
+     
+
+
+class Places_place(models.Model):
+     name=models.CharField(max_length=20)
+     def __str__(self):
+          return f"{self.name}"
+
+
+ 
+class Day(models.Model):
+     name=models.CharField(max_length=20)
+     def __str__(self):
+          return f"{self.name}"
+
+
+class Activities(models.Model):
+     days=models.ForeignKey(Day,on_delete=models.CASCADE)
+     name=models.CharField(max_length=100)
+     description=models.CharField(max_length=20)
+     hrs=models.IntegerField()
+     place_covered=models.IntegerField()
+     image=models.ImageField(upload_to='travelimages/')   
+     def __str__(self):
+          return  f"{self.name}" 
+
+
+
+class Itinerary_User_Details(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activities, on_delete=models.CASCADE)
+    
+    # Add a utility method to get all details from the associated activity
+    def get_activity_details(self):
+        return {
+            'name': self.activity.name,
+            'description': self.activity.description,
+            'hrs': self.activity.hrs,
+            'place_covered': self.activity.place_covered,
+            'image': self.activity.image.url,  # Use .url to get the image URL
+        }
+
+    def __str__(self):
+        return f"{self.user.username} - {self.activity.name}"
+
+
+
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    package = models.ForeignKey(Places, on_delete=models.CASCADE)
+    date=models.DateField()
+    adult = models.IntegerField(null=True, blank=True)
+    children = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+         
+        return f"Booking for {self.user} at {self.package}"
+    
+
+
+class Review(models.Model):
+     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     review=models.CharField(max_length=300)
+
+     def __str__(self):
+        return f"Booking for {self.user} at {self.package}"
+     
+
+
+
+
+
        
 
 class Hotel(models.Model):
@@ -79,58 +166,14 @@ class CarBook(models.Model):
     arrival_date = models.DateField()
     departure_date = models.DateField()
     destination = models.CharField(max_length=50)
-    licesence=models.CharField(max_length=100)
+    licesence = models.CharField(max_length=100, null=True, blank=True)
+
     idproof=models.IntegerField()
     deposit=models.IntegerField()
 
     def __str__(self):
         return f"Booking for {self.user} at {self.car_id}"
-
-
-
-
-
-
-
-class Places(models.Model):
-     category=models.ForeignKey(Category,on_delete=models.CASCADE)
-     name=models.CharField(max_length=200)
-     days=models.IntegerField()
-     night=models.IntegerField()
-     image=models.ImageField(upload_to='travelimages/',blank=True)
-     description=models.CharField(max_length=2000)
- 
-     
-
-     def __str__(self):
-          return f"{self.name}  - {self.category}" 
-     
-
-
-class Places_place(models.Model):
-     name=models.CharField(max_length=20)
-     def __str__(self):
-          return f"{self.name}"
-
-
- 
-class Day(models.Model):
-     name=models.CharField(max_length=20)
-     def __str__(self):
-          return f"{self.name}"
-
-
-class Activities(models.Model):
-     days=models.ForeignKey(Day,on_delete=models.CASCADE)
-     name=models.CharField(max_length=100)
-     description=models.CharField(max_length=20)
-     hrs=models.IntegerField()
-     place_covered=models.IntegerField()
-     image=models.ImageField(upload_to='travelimages/')   
-     def __str__(self):
-          return  f"{self.name}" 
-
-
+    
 
 class Itineary(models.Model):
     place=models.ForeignKey(Places,on_delete=models.CASCADE)
@@ -148,31 +191,3 @@ class Itineary(models.Model):
     
     def  __str__(self):
          return f"{self.name} - {self.display_format()}"
-
-
-class Itenary_User_Details(models.Model):
-     itenary=models.ForeignKey(Itineary,on_delete=models.CASCADE)
-     user=models.ForeignKey(User,on_delete=models.CASCADE)
-     activity=models.ForeignKey(Activities,on_delete=models.CASCADE)
-class Reservation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    package = models.ForeignKey(Places, on_delete=models.CASCADE)
-    date=models.DateField()
-    adult = models.IntegerField(null=True, blank=True)
-    children = models.IntegerField(null=True, blank=True)
-    
-    def __str__(self):
-         
-        return f"Booking for {self.user} at {self.package}"
-    
-
-
-class Review(models.Model):
-     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
-     user = models.ForeignKey(User, on_delete=models.CASCADE)
-     review=models.CharField(max_length=300)
-
-     def __str__(self):
-        return f"Booking for {self.user} at {self.package}"
-     
-

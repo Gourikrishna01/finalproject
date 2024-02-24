@@ -24,11 +24,16 @@ urlpatterns = [
    path('search/',search,name='search'),
    path('details/',details,name='details'),
    path('package_details/',package_details,name='package_details'),
-   path('itinerary/<int:place_id>/', itinerary, name='itinerary'),
+   path('itinerary/<int:place_id>/', itinerary, name='itinerary'),  # Your existing itinerary URL pattern
+   path('popup/<int:days_id>/', popup_view, name='popup'), 
+   path('add_activity/<int:days_id>/', add_activity, name='add_activity'),
+   path('success_page/', success_page, name='success_page'),
 
+]
+   
+  
 
 
   
  
   
-]
