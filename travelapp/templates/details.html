@@ -9,15 +9,24 @@
 <body>
     <h1>Search Results</h1>
     {% if package %}
+    <div class="card mb-3" style="max-width: 540px;">
         {% for item in package %}
-        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-            <div class="card-header">{{item.pname}}</div>
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <a href="{% url 'travelapp:package_details' %}">
+              <img src="{{item.images.url}}" class="card-img" style="height: fit-content;" alt="...">
+            </a>
+          </div>
+          <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">{{item.amount}}</h5>
-              
+              <h5 class="card-title">{{item.pname}}</h5>
+              <p class="card-text">{{item.amount}}</p>
+             
             </div>
           </div>
+        </div>
         {% endfor %}
+      </div>
     {% else %}
         <p>No packages found for "{{ query }}".</p>
     {% endif %}

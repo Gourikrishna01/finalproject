@@ -26,7 +26,7 @@
                         User Elements
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
+                        <a href="{% url 'travelapp:dashboard' %}" class="sidebar-link">
                             <i class="fa-solid fa-list pe-2"></i>
                             Dashboard
                         </a>
@@ -65,7 +65,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="sidebar-item">
+                    <!-- <li class="sidebar-item">
                         <a href="#" class="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse"
                             aria-expanded="false"><i class="fa-regular fa-user pe-2"></i>
                             Auth
@@ -75,22 +75,16 @@
                                 <a href="#" class="sidebar-link">Login</a>
                             </li>
                             <li class="sidebar-item">
-                                <a href="#" class="sidebar-link">Register</a>
+                                <a href="{}" class="sidebar-link">Register</a>
                             </li>
                             <li class="sidebar-item">
                                 <a href="#" class="sidebar-link">Forgot Password</a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="sidebar-header">
-                        Multi Level Menu
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed" data-bs-target="#multi" data-bs-toggle="collapse"
-                            aria-expanded="false"><i class="fa-solid fa-share-nodes pe-2"></i>
-                            Multi Dropdown
-                        </a>
-                        <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    </li> -->
+                  
+                   
+                        <!-- <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item">
                                 <a href="#" class="sidebar-link collapsed" data-bs-target="#level-1"
                                     data-bs-toggle="collapse" aria-expanded="false">Level 1</a>
@@ -103,7 +97,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> -->
                     </li>
                 </ul>
             </div>
@@ -120,9 +114,9 @@
                                 <img src="image/profile.jpg" class="avatar img-fluid rounded" alt="">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a href="#" class="dropdown-item">Profile</a>
-                                <a href="#" class="dropdown-item">Setting</a>
-                                <a href="/logout" class="dropdown-item">Logout</a>
+                                <a href="{% url 'travelapp:profile' %}" class="dropdown-item">Profile</a>
+                                <!-- <a href="#" class="dropdown-item">Setting</a> -->
+                                <a href="{% url 'travelapp:logout' %}" class="dropdown-item">Logout</a>
                             </div>
                         </li>
                     </ul>
@@ -186,7 +180,7 @@
                             <a href="/registration" class="btn btn-primary rounded-circle">{{request.user.username}}</a>
                               
                             <!-- Circular Button with Plus Symbol -->
-                            <a href="/registration" class="btn btn-primary rounded-circle">
+                            <a href="{% url 'travelapp:register' %}" class="btn btn-primary rounded-circle">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </div>

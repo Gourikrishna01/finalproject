@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class userLogin(models.Model):
-        username = models.TextField(User,unique=True)
+        username = models.OneToOneField(User, on_delete=models.CASCADE,unique=True)
         fullname=models.CharField(max_length=20)
         email=models.CharField(max_length=20)
         password=models.CharField(max_length=20)
-        
+   
         def __str__(self):
                 return str(self.user.username)
 
@@ -74,22 +74,6 @@ class Activities(models.Model):
 
 
 
-class Itinerary_User_Details(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    activity = models.ForeignKey(Activities, on_delete=models.CASCADE)
-    
-    # Add a utility method to get all details from the associated activity
-    def get_activity_details(self):
-        return {
-            'name': self.activity.name,
-            'description': self.activity.description,
-            'hrs': self.activity.hrs,
-            'place_covered': self.activity.place_covered,
-            'image': self.activity.image.url,  # Use .url to get the image URL
-        }
-
-    def __str__(self):
-        return f"{self.user.username} - {self.activity.name}"
 
 
 
@@ -117,8 +101,12 @@ class Review(models.Model):
 
 
 
+class Itineary_user_details(models.Model):
+     user=models.ForeignKey(User,on_delete=models.CASCADE)
+     activity=models.CharField(max_length=50)
 
-
+     def __str__(self):
+          return {self.activity}
        
 
 class Hotel(models.Model):

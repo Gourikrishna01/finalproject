@@ -1,28 +1,78 @@
-<!-- add_activity.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Activity</title>
+    <title>Activities</title>
 </head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+p {
+    margin: 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+</style>
 <body>
-    <h2>Add Activity</h2>
-    <form method="post" action="{% url 'travelapp:add_activity' days_id=days_id %}">
-        {% csrf_token %}
-        <label for="name">Name:</label>
-        <input type="text" name="name" required><br>
+    <h1>Activities</h1>
+    <ul>
+        {% for activity in activities %}
+            <li>
+                <p>{{ activity.name }}</p>
+                <form action="{% url 'travelapp:redirect_home' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="activity_id" value="{{ activity.id }}">
+                    <button type="submit" class="button">Go to Home</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No activities found.</li>
+        {% endfor %}
+    </ul>
 
-        <label for="description">Description:</label>
-        <input type="text" name="description" required><br>
-
-        <label for="hrs">Hours:</label>
-        <input type="number" name="hrs" required><br>
-
-        <label for="place_covered">Place Covered:</label>
-        <input type="number" name="place_covered" required><br>
-
-        <button type="submit">Add Activity</button>
-    </form>
+    <script>
+        function showAlert() {
+            alert("Activity stored successfully. Waiting for admin approval.");
+        }
+    </script>
 </body>
 </html>

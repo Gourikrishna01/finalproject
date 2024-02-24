@@ -216,42 +216,24 @@ def popup_view(request, days_id):
     activities = Activities.objects.filter(days_id=days_id)
     return render(request, 'popup.html', {'activities': activities, 'days_id': days_id})
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
- # Import the Itinerary model
-def add_activity(request, days_id):
+def day_activities(request):
+    activities = Itineary_user_details.objects.all()
+    return render(request, 'popup.html', {'activities': activities})
+
+from django.shortcuts import redirect
+from django.http import HttpResponse
+from .models import Itineary_user_details
+
+def redirect_home(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        hrs = request.POST.get('hrs')
-        place_covered = request.POST.get('place_covered')
+        activity_id = request.POST.get('activity_id')
+        activity = Activities.objects.get(id=activity_id)  # Assuming 'Activity' is your model for activities
+        Itineary_user_details.objects.create(user=request.user, activity=activity.name)
+        
+        # Print a message to the terminal
+        print(f"Activity '{activity.name}' added successfully by user '{request.user.username}'.")
 
-        try:
-            day = Day.objects.get(pk=days_id)
-
-            activity = Activities.objects.create(
-                name=name,
-                description=description,
-                hrs=hrs,
-                place_covered=place_covered,
-                days=day,
-            )
-
-            return render(request , 'success.html')
-
-        except Day.DoesNotExist:
-            return render(request, 'error_page.html', {'error_message': 'Invalid day ID'})
-        except Exception as e:
-            print(e)
-            return render(request, 'error_page.html', {'error_message': 'Error creating activity'})
-
-    return render(request, 'add_activity.html', {'days_id': days_id})
-
-def success_page(request):
-    return render (request, 'success.html')
-
-
-
+        return redirect('travelapp:home')
 
 def HotelView(request):
     hotels = Hotel.objects.all()
@@ -368,4 +350,21 @@ def carbook(request, car_id):
         # Handle GET request to show the form
         car = CarView.objects.get(id=car_id)
         return render(request, 'CarBooking.html', {'car': car})
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseNotFound
+from .models import userLogin
+
+@login_required
+def display_user_details(request):
+    try:
+        user_login = User.objects.get(username=request.user)
+        return render(request, 'profile.html', {'user_login': user_login})
+    except User.DoesNotExist:
+        return HttpResponseNotFound("User details not found")
+    except Exception as e:
+        print(e)
+        return HttpResponseNotFound("An error occurred")
+
 
