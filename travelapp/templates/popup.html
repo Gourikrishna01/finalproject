@@ -25,6 +25,8 @@
         .button:hover {
             background-color: #45a049; /* Darker green */
         }
+
+    
     </style>
 </head>
 
@@ -34,16 +36,19 @@
         <div class="card">
             <div class="face face1">
                 <div class="content">
-                    <!-- <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/design_128.png?raw=true"> -->
+                    <img src="{{ activity.image.url }}" alt="{{ activity.name }}"> <!-- Set alt attribute for accessibility -->
                     <h3>{{ activity.name }}</h3>
+                   
                 </div>
+               
             </div>
+            <p>{{ activity.distance }} kms</p>
+            <p>{{ activity.description }}</p>
             <form action="{% url 'travelapp:redirect_home' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="activity_id" value="{{ activity.id }}">
                 <button type="submit" class="button" onclick="showAlert()">Go to Home</button>
             </form>
-            <!-- Add additional faces or content for the card if needed -->
         </div>
         {% endfor %}
     </div>

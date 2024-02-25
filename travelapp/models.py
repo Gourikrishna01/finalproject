@@ -65,10 +65,12 @@ class Day(models.Model):
 class Activities(models.Model):
      days=models.ForeignKey(Day,on_delete=models.CASCADE)
      name=models.CharField(max_length=100)
-     description=models.CharField(max_length=20)
+     description=models.CharField(max_length=200)
      hrs=models.IntegerField()
      place_covered=models.IntegerField()
      image=models.ImageField(upload_to='travelimages/')   
+     distance = models.IntegerField(null=True, default=None)
+
      def __str__(self):
           return  f"{self.name}" 
 
