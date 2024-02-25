@@ -231,7 +231,7 @@ def redirect_home(request):
         Itineary_user_details.objects.create(user=request.user, activity=activity.name)
         
         # Print a message to the terminal
-        print(f"Activity '{activity.name}' added successfully by user '{request.user.username}'.")
+        print(f"Activity '{activity.name}' added successfully by user '{request.user.username} and it is awiating for the approval of admin'.")
 
         return redirect('travelapp:home')
 

@@ -1,78 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activities</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/activity.css' %}" />
+    <style>
+        /* activity.css */
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px; /* Adjust padding as needed */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px; /* Adjust margin as needed */
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .button:hover {
+            background-color: #45a049; /* Darker green */
+        }
+    </style>
 </head>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
-}
 
-h1 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-li {
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-}
-
-p {
-    margin: 0;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-</style>
 <body>
-    <h1>Activities</h1>
-    <ul>
+    <div class="container">
         {% for activity in activities %}
-            <li>
-                <p>{{ activity.name }}</p>
-                <form action="{% url 'travelapp:redirect_home' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="activity_id" value="{{ activity.id }}">
-                    <button type="submit" class="button">Go to Home</button>
-                </form>
-            </li>
-        {% empty %}
-            <li>No activities found.</li>
+        <div class="card">
+            <div class="face face1">
+                <div class="content">
+                    <!-- <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/design_128.png?raw=true"> -->
+                    <h3>{{ activity.name }}</h3>
+                </div>
+            </div>
+            <form action="{% url 'travelapp:redirect_home' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="activity_id" value="{{ activity.id }}">
+                <button type="submit" class="button" onclick="showAlert()">Go to Home</button>
+            </form>
+            <!-- Add additional faces or content for the card if needed -->
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 
     <script>
         function showAlert() {
-            alert("Activity stored successfully. Waiting for admin approval.");
+            alert("Awaiting the approval of admin.");
         }
     </script>
 </body>
+
 </html>
