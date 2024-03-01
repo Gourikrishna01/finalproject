@@ -1,12 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/Box.css">
-    <link rel="stylesheet"href='../static/css/Card.css'>
+    <link rel="stylesheet" href="{% static 'css/Style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Card.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/Card.css' %}">
+
 </head>
 <body>
     <header>
@@ -22,7 +25,7 @@
                     </button>
                     <div class="navbar-nav ml-auto py-0">
                         <ul class="navbar-nav">
-                            <a href="{% url 'travelapp:package_details' %}" class="nav-link">All</a>
+                            <a href="{% url 'travelapp:package_details' pname=package.pname %}" class="nav-link">All</a>
                             {% for category in categories %}
                             <a href="?category_id={{ category.id }}" class="nav-link">{{ category.Categoryname }}</a>
                             {% endfor %}

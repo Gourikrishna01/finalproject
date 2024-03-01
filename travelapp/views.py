@@ -69,31 +69,7 @@ def home(request):
     
     return render(request,'home.html',context)
 
-def booking(request, pname):
-    if request.method == 'POST':
-        booking = Booking.objects.get(pname=pname)
-        user = request.user
-        check_in = request.POST.get('check_in')
-        check_out = request.POST.get('check_out')
-        adult = request.POST.get('adult')
-        children = request.POST.get('children')
-        
-        # Check if there's any existing reservation for the same date
-        existing_reservation = Reservation.objects.filter(package=booking, check_in=check_in).exists()
-        
-        if existing_reservation:
-            # Alert message for already booked date
-            messages.error(request, f"This package is already booked for {check_in}. Please choose a different date.")
-            return redirect('travelapp:book', pname=pname)
-        else:
-            # Create a new Reservation instance
-            reservation = Reservation(user=user, package=booking, check_in=check_in, check_out=check_out, adult=adult, children=children)
-            reservation.save()
-            # Redirect to a success page or home page
-            return redirect('travelapp:home')
-    else:
-        # Render the booking form
-        return render(request, 'Booking.html', {'pname': pname})
+
 
 
 def dashboard(request):
@@ -184,32 +160,27 @@ def details(request):
     }
     return render(request,'details.html',context)
 
+from django.shortcuts import render, get_object_or_404
+from .models import Booking, Category, Places
 
-
-
-from django.shortcuts import get_object_or_404
-
-def package_details(request):
+def package_details(request, pname):
+    package = get_object_or_404(Booking, pname=pname)
     categories = Category.objects.all()  # Retrieve all category objects
     category_id = request.GET.get('category_id')
     
     if category_id:
         selected_category = get_object_or_404(Category, id=category_id)
-        places = Places.objects.filter(category_id=category_id)
+        # Retrieve places from the selected package and category
+        places = Places.objects.filter(category_id=category_id, package=package)
     else:
         selected_category = None
-        places = Places.objects.all()
+        # Retrieve places from the selected package if no category is selected
+        places = Places.objects.filter(package=package)
     
-    context = {'categories': categories, 'places': places, 'selected_category': selected_category}
+    context = {'categories': categories, 'places': places, 'selected_category': selected_category, 'package': package}
     return render(request, 'packages_details.html', context)
 
 
-def itinerary(request, place_id):
-    place = get_object_or_404(Places, id=place_id)
-    itineraries = Itineary.objects.filter(place=place)
-    
-    context = {'itineraries': itineraries}
-    return render(request, 'itenary.html', context)
 
 
 def popup_view(request, days_id):
@@ -366,5 +337,57 @@ def display_user_details(request):
     except Exception as e:
         print(e)
         return HttpResponseNotFound("An error occurred")
+from django.shortcuts import render, get_object_or_404
+  # Correct the model name to Itinerary
 
+def itinerary(request, package_id):
+    package = get_object_or_404(Places, id=package_id)
+    itineraries = Itineary.objects.filter(package=package)  # Correct the model name
+    
+    context = {'package': package, 'itineraries': itineraries}
+    return render(request, 'itenary.html', context)  # Correct the template name to itinerary.html
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.contrib import messages
+from .models import Reservation, Places
+
+def book(request, package_id):
+    if request.method == 'POST':
+        # Assuming user is already logged in and stored in request.user
+        user = request.user
+        
+        # Retrieve the package object
+        package = Places.objects.get(id=package_id)
+        
+        # Assuming other data like date, adult, children are posted through the form
+        arrival_date = request.POST.get('arrival_date')
+        departure_date = request.POST.get('departure_date')
+        adult = request.POST.get('adult')
+        children = request.POST.get('children')
+        
+        # Check if a reservation already exists for the same package and date
+        existing_reservation = Reservation.objects.filter(package=package, arrival_date=arrival_date).exists()
+        
+        if existing_reservation:
+            # If a reservation already exists, display a message to the user
+            messages.error(request, 'Sorry, this package is already booked for the selected date.')
+            # Redirect back to the booking form
+            return redirect(reverse('travelapp:book', kwargs={'package_id': package_id}))
+        else:
+            # Create Reservation object
+            reservation = Reservation.objects.create(
+                user=user, 
+                package=package, 
+                arrival_date=arrival_date, 
+                departure_date=departure_date, 
+                adult=adult, 
+                children=children
+            )
+            
+            # Redirect back to the home page after successful booking
+            return redirect('travelapp:home')  # Assuming 'home' is the name of your home page URL pattern
+    else:
+        # Render the booking form template
+        return render(request, 'Booking.html', {'package_id': package_id})
 

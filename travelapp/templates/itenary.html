@@ -25,6 +25,22 @@
         a.popupButton:hover {
             background-color: #3E8E41; /* Darker blue on hover */
         }
+
+        /* Additional styles for the confirm button */
+        .confirmButtonContainer {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            margin-top: 20px; /* Adjust spacing as needed */
+        }
+
+        .confirmButton {
+            padding: 10px;
+            background-color: #007bff; /* Blue color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -41,13 +57,21 @@
                 <p>{{ itinerary.activity.name }}</p>
                 <p>Duration: {{ itinerary.activity.hrs }}</p>
                 <p>Places Covered: {{ itinerary.activity.place_covered }}</p>
+                <p>{{itineary.meals}}</p>
             </div>
         </li>
     </ul>
     <a href="/popup/{{ itinerary.days.id }}/" class="popupButton">Day {{ activity.days.id }}</a>
+    {% endfor %}
 
- {% endfor %}
+    <!-- Container for the confirm button -->
+    <div class="confirmButtonContainer">
+        <!-- Button to confirm the itinerary -->
+      <a href="/book/{{package.id}}/">book</a>
 
+      
+
+    </div>
    
     <script src="{% static 'js/itineary.js' %}"></script>
 

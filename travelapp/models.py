@@ -35,6 +35,7 @@ class Booking(models.Model):
 
 
 class Places(models.Model):
+     package=models.ForeignKey(Booking,on_delete=models.CASCADE,null=True)
      category=models.ForeignKey(Category,on_delete=models.CASCADE)
      name=models.CharField(max_length=200)
      days=models.IntegerField()
@@ -73,33 +74,6 @@ class Activities(models.Model):
 
      def __str__(self):
           return  f"{self.name}" 
-
-
-
-
-
-
-class Reservation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    package = models.ForeignKey(Places, on_delete=models.CASCADE)
-    date=models.DateField()
-    adult = models.IntegerField(null=True, blank=True)
-    children = models.IntegerField(null=True, blank=True)
-    
-    def __str__(self):
-         
-        return f"Booking for {self.user} at {self.package}"
-    
-
-
-class Review(models.Model):
-     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
-     user = models.ForeignKey(User, on_delete=models.CASCADE)
-     review=models.CharField(max_length=300)
-
-     def __str__(self):
-        return f"Booking for {self.user} at {self.package}"
-     
 
 
 
@@ -166,7 +140,7 @@ class CarBook(models.Model):
     
 
 class Itineary(models.Model):
-    place=models.ForeignKey(Places,on_delete=models.CASCADE)
+    package=models.ForeignKey(Places,on_delete=models.CASCADE)
     days=models.ForeignKey(Day,on_delete=models.CASCADE)
     description=models.CharField(max_length=200)
     name=models.ForeignKey(Places_place,on_delete=models.CASCADE)
@@ -175,9 +149,32 @@ class Itineary(models.Model):
     month = models.CharField(max_length=50)
     day_of_week = models.CharField(max_length=50)
     activity=models.ForeignKey(Activities,on_delete=models.CASCADE)
+    meals = models.CharField(max_length=100, default='None')
     def display_format(self):
         # Format the date as "DD Mon, Day"
         return f"{self.date.strftime('%d %b')}, {self.day_of_week}"
     
     def  __str__(self):
          return f"{self.name} - {self.display_format()}"
+    
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    package = models.ForeignKey(Places, on_delete=models.CASCADE)
+    arrival_date=models.DateField(null=True,blank=True)
+    departure_date=models.DateField(null=True,blank=True)
+    adult = models.IntegerField(null=True, blank=True)
+    children = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+         
+        return f"Booking for {self.user} at {self.package}"
+
+
+
+class Review(models.Model):
+     package = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name='ratings')
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     review=models.CharField(max_length=300)
+
+     def __str__(self):
+        return f"Booking for {self.user} at {self.package}"

@@ -23,19 +23,19 @@
                         <div class="form-header">
                             <h1>Make your Booking</h1>
                         </div>
-                        <form method="post" action="{% url 'travelapp:book' pname=pname %}" id="bookingForm">
+                        <form method="post" action="{% url 'travelapp:book'  package_id=package_id  %}" id="bookingForm">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Check In</span>
-                                        <input class="form-control" type="date" name="check_in" min="{{ today }}" required>
+                                        <input class="form-control" type="date" name="arrival_date" min="{{ today }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <span class="form-label">Check Out</span>
-                                        <input class="form-control" type="date" name="check_out" min="{{ today }}" required>
+                                        <input class="form-control" type="date" name="departure_date" min="{{ today }}" required>
                                     </div>
                                 </div>
                             </div>
