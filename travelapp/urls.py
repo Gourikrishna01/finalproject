@@ -26,7 +26,7 @@ urlpatterns = [
    path('package-details/<str:pname>/', package_details, name='package_details'),
    path('itinerary/<int:package_id>/', itinerary, name='itinerary'),  # Your existing itinerary URL pattern
    path('popup/<int:days_id>/', popup_view, name='popup'), 
-   path('day_activities/', day_activities, name='day_activities'),
+   
    path('redirect_home/' , redirect_home, name='redirect_home'),
    path('profile/', display_user_details, name='profile'),
   path('book/<int:package_id>/', book, name='book')

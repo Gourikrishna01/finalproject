@@ -187,9 +187,7 @@ def popup_view(request, days_id):
     activities = Activities.objects.filter(days_id=days_id)
     return render(request, 'popup.html', {'activities': activities, 'days_id': days_id})
 
-def day_activities(request):
-    activities = Itineary_user_details.objects.all()
-    return render(request, 'popup.html', {'activities': activities})
+
 
 from django.shortcuts import redirect
 from django.http import HttpResponse

@@ -64,6 +64,7 @@ class Day(models.Model):
 
 
 class Activities(models.Model):
+
      days=models.ForeignKey(Day,on_delete=models.CASCADE)
      name=models.CharField(max_length=100)
      description=models.CharField(max_length=200)
