@@ -131,8 +131,8 @@ def update_package(request, reservation_id):
     
     if request.method == 'POST':
         # Assuming you have form data in request.POST, you can directly update the model fields
-        reservation.check_in = request.POST.get('check_in')
-        reservation.check_out = request.POST.get('check_out')
+        reservation.arrival_date = request.POST.get('arrival_date')
+        reservation.departure_date = request.POST.get('departure_date')
         reservation.adult = request.POST.get('adult')
         reservation.children = request.POST.get('children')
         

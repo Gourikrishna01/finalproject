@@ -17,8 +17,8 @@
                 <div class="card text-white bg-primary mb-3">
                     <div class="card-header">{{ reservation.package.pname }}</div>
                     <div class="card-body">
-                        <h5 class="card-title">Check-in Date: {{ reservation.check_in }}</h5>
-                        <p class="card-text">Check-out Date: {{ reservation.check_out }}</p>
+                        <h5 class="card-title">Check-in Date: {{ reservation.arrival_date}}</h5>
+                        <p class="card-text">Check-out Date: {{ reservation.departure_date }}</p>
                         <p class="card-text">Number of Adults: {{ reservation.adult }}</p>
                         <p class="card-text">Number of Children: {{ reservation.children }}</p>
                         <a href="{% url 'travelapp:update' reservation_id=reservation.id %}"class="btn btn-secondary">Update</a>
