@@ -29,7 +29,8 @@ urlpatterns = [
    
    path('redirect_home/' , redirect_home, name='redirect_home'),
    path('profile/', display_user_details, name='profile'),
-  path('book/<int:package_id>/', book, name='book')
+  path('book/<int:package_id>/', book, name='book'),
+
 ]
    
   

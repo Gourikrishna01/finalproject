@@ -285,7 +285,7 @@ def carbook(request, car_id):
         destination = request.POST.get('destination')
         license_plate = request.POST.get('licesence')  # Corrected field name
         id_proof = request.POST.get('idproof')
-        deposit = request.POST.get('deposit')
+      
         
         # Validate arrival and departure dates
         try:
@@ -311,7 +311,7 @@ def carbook(request, car_id):
         user = request.user
         booking = CarBook.objects.create(user=user, car_id=car, arrival_date=arrival_date,
                                          departure_date=departure_date, destination=destination,
-                                         licesence=license_plate, idproof=id_proof, deposit=deposit)
+                                         licesence=license_plate, idproof=id_proof)
         booking.save()
         messages.success(request, "Car booked successfully!")
         return redirect('travelapp:carlist')
@@ -388,4 +388,5 @@ def book(request, package_id):
     else:
         # Render the booking form template
         return render(request, 'Booking.html', {'package_id': package_id})
+
 

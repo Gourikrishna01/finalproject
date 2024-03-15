@@ -134,8 +134,7 @@ class CarBook(models.Model):
     licesence = models.CharField(max_length=100, null=True, blank=True)
 
     idproof=models.IntegerField()
-    deposit=models.IntegerField()
-
+  
     def __str__(self):
         return f"Booking for {self.user} at {self.car_id}"
     
